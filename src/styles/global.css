@@ -7,14 +7,14 @@
 	
 	/* --- LIGHT THEME (Default) --- */
 	--color-bg: #ffffff;
-	--color-bg-offset: #f8f9fa;
-    --color-bg-header: rgba(255, 255, 255, 0.85); /* High transparency for glass effect */
+    --color-bg-offset: #ffffff; /* Clean white for premium feel */
+    --color-bg-header: rgba(255, 255, 255, 0.85);
 	--color-text-main: #1a1a1a;
 	--color-text-muted: #555555;
 	--color-accent: #003366; /* Oxford Blue */
 	--color-accent-light: #e6f0fa;
 	--color-border: #eaeaea;
-    --color-header-border: rgba(0, 0, 0, 0.05);
+    --color-header-border: rgba(0, 0, 0, 0.08);
 	
 	/* Spacing & UI */
 	--max-width: 960px;
@@ -26,15 +26,15 @@
 
 /* --- DARK THEME --- */
 [data-theme="dark"] {
-    --color-bg: #0f172a; /* Deep Slate */
-    --color-bg-offset: #1e293b;
-    --color-bg-header: rgba(15, 23, 42, 0.75); /* Dark transparency */
+    --color-bg: #0f172a; /* Deep Slate (Slate-900) */
+    --color-bg-offset: #0f172a; /* Seamless: Same as main BG for a unified, infinite canvas look */
+    --color-bg-header: rgba(15, 23, 42, 0.8);
     --color-text-main: #e2e8f0;
     --color-text-muted: #94a3b8;
     --color-accent: #60a5fa; /* Electric Blue */
     --color-accent-light: #1e3a8a;
     --color-border: #334155;
-    --color-header-border: rgba(255, 255, 255, 0.1); /* Subtle light border for definition */
+    --color-header-border: rgba(255, 255, 255, 0.1);
     
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.5);
     --shadow-md: 0 4px 6px rgba(0,0,0,0.5);

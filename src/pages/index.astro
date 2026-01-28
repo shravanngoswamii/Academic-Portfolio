@@ -2,7 +2,6 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import AuthorLink from '../components/AuthorLink.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
 import bibFileRaw from '../data/publications.bib?raw';
@@ -12,9 +11,21 @@ const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 ).slice(0, 3);
 
-// --- BibTeX Parser Logic (Same as Publications page) ---
-function parseBibTeX(input: string) {
-    const entries = [];
+// --- BibTeX Parser Logic ---
+interface Author {
+	first: string;
+	last: string;
+}
+
+interface BibEntry {
+	type: string;
+	key: string;
+	fields: Record<string, string>;
+	authors: Author[];
+}
+
+function parseBibTeX(input: string): BibEntry[] {
+    const entries: BibEntry[] = [];
     const rawEntries = input.split(/@(\w+)\s*\{/g).slice(1);
 
     for (let i = 0; i < rawEntries.length; i += 2) {
@@ -35,7 +46,7 @@ function parseBibTeX(input: string) {
             fields[fieldKey] = val.replace(/\s+/g, ' ').trim();
         }
 
-        let authors = [];
+        let authors: Author[] = [];
         if (fields.author) {
             authors = fields.author.split(/\s+and\s+/i).map(str => {
                 const parts = str.split(',');
@@ -59,7 +70,7 @@ const publications = parseBibTeX(bibFileRaw).sort((a, b) => {
     return (parseInt(b.fields.year) || 0) - (parseInt(a.fields.year) || 0);
 }).slice(0, 3);
 
-const formatAuthor = (auth: { first: string, last: string }) => {
+const formatAuthor = (auth: Author) => {
     return auth.first ? `${auth.first} ${auth.last}` : auth.last;
 };
 ---

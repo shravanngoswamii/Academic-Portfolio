@@ -62,13 +62,27 @@ import { SITE_TITLE } from '../consts';
 
 <style>
 	.site-footer {
-		background: var(--color-bg-offset); /* Use new offset variable for theme support */
-        border-top: 1px solid var(--color-border);
+		background: var(--color-bg-offset);
 		color: var(--color-text-main);
 		padding: 4rem 1rem;
         margin-top: auto;
         transition: background-color 0.3s ease;
+        position: relative;
+        /* Removed border-top */
 	}
+
+    /* Gradient Separator for Footer (Top) */
+    .site-footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, var(--color-border) 20%, var(--color-border) 80%, transparent 100%);
+        opacity: 0.6;
+    }
+
     .footer-content {
         max-width: var(--max-width);
         margin: 0 auto;
