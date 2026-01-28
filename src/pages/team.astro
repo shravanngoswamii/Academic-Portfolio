@@ -5,7 +5,6 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE } from '../consts';
 import authorsData from '../data/authors.json';
 
-// Filter and sort members
 const currentMembers = authorsData
 	.filter(m => !m.alumni)
 	.sort((a, b) => (a.sortOrder || 99) - (b.sortOrder || 99));

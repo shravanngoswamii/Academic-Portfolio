@@ -6,12 +6,10 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
 import bibFileRaw from '../data/publications.bib?raw';
 
-// Fetch recent posts
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 ).slice(0, 3);
 
-// --- BibTeX Parser Logic ---
 interface Author {
 	first: string;
 	last: string;
@@ -65,7 +63,6 @@ function parseBibTeX(input: string): BibEntry[] {
     return entries;
 }
 
-// Parse and get top 3 publications
 const publications = parseBibTeX(bibFileRaw).sort((a, b) => {
     return (parseInt(b.fields.year) || 0) - (parseInt(a.fields.year) || 0);
 }).slice(0, 3);
@@ -102,7 +99,6 @@ const formatAuthor = (auth: Author) => {
 				box-shadow: 0 0 0 1px var(--color-border), var(--shadow-lg);
 			}
             
-            /* Publication Mini List */
             .pub-mini-item {
                 margin-bottom: 1.5rem;
                 padding-bottom: 1.5rem;
@@ -121,8 +117,7 @@ const formatAuthor = (auth: Author) => {
 	<body>
 		<Header />
 		<main>
-			<!-- Hero Section -->
-			<section class="hero">
++			<section class="hero">
 				<div class="hero-content">
 					<h1 style="margin-bottom: 0.5rem; font-size: 3rem;">Albert Einstein</h1>
 					<h4 style="font-weight: 400; color: var(--color-text-muted); margin-bottom: 1.5rem; font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.05em; font-size: 1rem;">
@@ -133,7 +128,6 @@ const formatAuthor = (auth: Author) => {
 						Welcome to my academic portfolio. My research focuses on <strong>General Relativity, Quantum Mechanics, and Unified Field Theory</strong>. I lead the Theoretical Physics Group where we explore the fundamental laws governing the universe.
 					</p>
 					<div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                        <!-- Using inline styles for specific button needs or classes from global.css -->
 						<a href="/publications" class="btn">View Publications</a>
 						<a href="/projects" class="btn btn-outline">Current Projects</a>
 					</div>
@@ -146,7 +140,6 @@ const formatAuthor = (auth: Author) => {
 			<hr style="margin: 3rem 0; border-top: 1px solid var(--color-border);" />
 
 			<div class="grid-2" style="gap: 4rem; margin-top: 0;">
-                <!-- Selected Research -->
                 <section>
                     <h2 style="margin-top: 0;">Selected Publications</h2>
                     <div class="publication-list">
@@ -169,7 +162,6 @@ const formatAuthor = (auth: Author) => {
                     </div>
                 </section>
 
-                <!-- Recent News -->
                 <section>
                     <h2 style="margin-top: 0;">Lab News</h2>
                     <ul style="list-style: none; padding: 0;">

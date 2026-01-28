@@ -7,7 +7,6 @@ interface Props {
 
 const { nameOrSlug } = Astro.props;
 
-// Normalizer: removes extra spaces, dots, and lowercase
 const normalize = (s: string) => {
     if (!s) return "";
     return s.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -15,14 +14,11 @@ const normalize = (s: string) => {
 
 const target = normalize(nameOrSlug);
 
-// 1. Try to find by ID first
 let author = authorsData.find(a => a.id === nameOrSlug);
 
-// 2. If not found, try to fuzzy match by Name
 if (!author && target) {
     author = authorsData.find(a => {
         const dbName = normalize(a.name);
-        // Check contains in both directions to handle partial matches
         return dbName.includes(target) || target.includes(dbName);
     });
 }
@@ -54,6 +50,5 @@ if (!author && target) {
         </div>
     </span>
 ) : (
-    // If no match, just display the name text
     <span>{nameOrSlug.replace(/[{}]/g, '')}</span>
 )}

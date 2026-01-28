@@ -7,7 +7,6 @@ import { Image } from 'astro:assets';
 import AuthorLink from '../components/AuthorLink.astro';
 import projectsData from '../data/projects.json';
 
-// Sort projects by year descending
 const projects = projectsData.sort((a, b) => b.year - a.year);
 ---
 

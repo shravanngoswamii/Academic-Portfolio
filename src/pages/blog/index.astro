@@ -18,11 +18,10 @@ const posts = (await getCollection('blog')).sort(
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
         <style>
-            /* Local overrides for specific blog list styling */
             .blog-list {
                 display: flex;
                 flex-direction: column;
-                gap: 3rem; /* Increased spacing for premium feel */
+                gap: 3rem;
                 margin-top: 3rem;
             }
             .blog-post-card {
@@ -36,16 +35,15 @@ const posts = (await getCollection('blog')).sort(
                 border-bottom: none;
             }
             
-            /* Thumbnail Styling - Moved to Right */
             .blog-thumb {
-                width: 280px; /* Fixed, reasonable width for desktop */
+                width: 280px;
                 flex-shrink: 0;
                 border-radius: 8px;
                 overflow: hidden;
-                box-shadow: var(--shadow-md); /* Slightly deeper shadow */
+                box-shadow: var(--shadow-md);
                 aspect-ratio: 16/9;
                 display: block;
-                order: 2; /* Ensure image is visually second (right side) if DOM order varies, though we swapped HTML too */
+                order: 2;
                 align-self: flex-start;
             }
             .blog-thumb img {
@@ -59,10 +57,9 @@ const posts = (await getCollection('blog')).sort(
                 filter: brightness(1.05);
             }
 
-            /* Content Styling */
             .blog-content {
                 flex: 1;
-                order: 1; /* Content on the left */
+                order: 1;
                 padding-right: 1rem;
             }
             .blog-title {
@@ -117,12 +114,12 @@ const posts = (await getCollection('blog')).sort(
             
             @media (max-width: 720px) {
                 .blog-post-card {
-                    flex-direction: column-reverse; /* Image on top for mobile */
+                    flex-direction: column-reverse;
                     gap: 1.5rem;
                     padding-bottom: 2rem;
                 }
                 .blog-thumb {
-                    width: 100%; /* Full width on mobile */
+                    width: 100%;
                     height: auto;
                     aspect-ratio: 16/9;
                     box-shadow: var(--shadow-sm);
