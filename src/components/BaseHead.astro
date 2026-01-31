@@ -17,8 +17,8 @@ const { title, description, image = FallbackImage } = Astro.props;
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
-<link rel="sitemap" href={`${import.meta.env.BASE_URL}sitemap-index.xml`} />
+<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`} />
+<link rel="sitemap" href={`${import.meta.env.BASE_URL}/sitemap-index.xml`} />
 <link
 	rel="alternate"
 	type="application/rss+xml"
@@ -43,8 +43,8 @@ const { title, description, image = FallbackImage } = Astro.props;
     }
 </script>
 
-<link rel="preload" href={`${import.meta.env.BASE_URL}fonts/atkinson-regular.woff`} as="font" type="font/woff" crossorigin />
-<link rel="preload" href={`${import.meta.env.BASE_URL}fonts/atkinson-bold.woff`} as="font" type="font/woff" crossorigin />
+<link rel="preload" href={`${import.meta.env.BASE_URL}/fonts/atkinson-regular.woff`} as="font" type="font/woff" crossorigin />
+<link rel="preload" href={`${import.meta.env.BASE_URL}/fonts/atkinson-bold.woff`} as="font" type="font/woff" crossorigin />
 
 <link rel="canonical" href={canonicalURL} />
 

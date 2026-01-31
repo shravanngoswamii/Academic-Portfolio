@@ -147,7 +147,7 @@ const posts = (await getCollection('blog')).sort(
                         <article class="blog-post-card">
                             <div class="blog-content">
                                 <h2 class="blog-title">
-                                    <a href={`${import.meta.env.BASE_URL}blog/${post.id}/`}>{post.data.title}</a>
+                                    <a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`}>{post.data.title}</a>
                                 </h2>
                                 
                                 <div class="blog-meta">
@@ -170,10 +170,10 @@ const posts = (await getCollection('blog')).sort(
                                     {post.data.description}
                                 </p>
                                 
-                                <a href={`${import.meta.env.BASE_URL}blog/${post.id}/`} class="read-more">Read Article &rarr;</a>
+                                <a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`} class="read-more">Read Article &rarr;</a>
                             </div>
 
-                            <a href={`${import.meta.env.BASE_URL}blog/${post.id}/`} class="blog-thumb">
+                            <a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`} class="blog-thumb">
                                 {post.data.heroImage ? (
                                     <Image width={560} height={315} src={post.data.heroImage} alt="" />
                                 ) : (

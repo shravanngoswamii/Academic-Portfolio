@@ -128,8 +128,8 @@ const formatAuthor = (auth: Author) => {
 						Welcome to my academic portfolio. My research focuses on <strong>General Relativity, Quantum Mechanics, and Unified Field Theory</strong>. I lead the Theoretical Physics Group where we explore the fundamental laws governing the universe.
 					</p>
 					<div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-						<a href={`${import.meta.env.BASE_URL}publications`} class="btn">View Publications</a>
-						<a href={`${import.meta.env.BASE_URL}projects`} class="btn btn-outline">Current Projects</a>
+						<a href={`${import.meta.env.BASE_URL}/publications`} class="btn">View Publications</a>
+						<a href={`${import.meta.env.BASE_URL}/projects`} class="btn btn-outline">Current Projects</a>
 					</div>
 				</div>
 				<div class="hero-image">
@@ -158,7 +158,7 @@ const formatAuthor = (auth: Author) => {
                         )) : <p>No publications found.</p>}
                     </div>
                     <div style="margin-top: 1.5rem;">
-                        <a href={`${import.meta.env.BASE_URL}publications`} style="font-weight: 600;">View Full List &rarr;</a>
+                        <a href={`${import.meta.env.BASE_URL}/publications`} style="font-weight: 600;">View Full List &rarr;</a>
                     </div>
                 </section>
 
@@ -167,7 +167,7 @@ const formatAuthor = (auth: Author) => {
                     <ul style="list-style: none; padding: 0;">
                         {posts.map((post) => (
                             <li style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px dashed var(--color-border);">
-                                <a href={`${import.meta.env.BASE_URL}blog/${post.id}/`} style="display: block; font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; color: var(--color-text-main); margin-bottom: 0.25rem;">
+                                <a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`} style="display: block; font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; color: var(--color-text-main); margin-bottom: 0.25rem;">
                                     {post.data.title}
                                 </a>
                                 <small style="color: var(--color-text-muted); text-transform: uppercase; font-size: 0.8rem;">
@@ -180,7 +180,7 @@ const formatAuthor = (auth: Author) => {
                             </li>
                         ))}
                     </ul>
-                    <a href={`${import.meta.env.BASE_URL}blog`} style="font-weight: 600;">View Blog &rarr;</a>
+                    <a href={`${import.meta.env.BASE_URL}/blog`} style="font-weight: 600;">View Blog &rarr;</a>
                 </section>
             </div>
 		</main>
