@@ -1,0 +1,31 @@
+[
+  {
+    "id": "general-relativity",
+    "title": "General Theory of Relativity",
+    "description": "A geometric theory of gravitation that refines Newton's law of universal gravitation, describing gravity as the curvature of spacetime caused by mass and energy.",
+    "year": 1915,
+    "status": "Completed",
+    "authors": ["albert-einstein"],
+    "heroImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Spacetime_lattice_analogy_white.svg/330px-Spacetime_lattice_analogy_white.svg.png",
+    "link": "https://en.wikipedia.org/wiki/General_relativity"
+  },
+  {
+    "id": "universal-machine",
+    "title": "The Universal Computing Machine",
+    "description": "Developing a theoretical mathematical model of a general-purpose computer, capable of simulating any other machine's logic. This work lays the foundation for modern computer science.",
+    "year": 1936,
+    "status": "Active",
+    "authors": ["alan-turing", "ada-lovelace"],
+    "heroImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Turing_Machine_Model_Davey_2012.jpg/500px-Turing_Machine_Model_Davey_2012.jpg",
+    "link": "https://en.wikipedia.org/wiki/Turing_machine"
+  },
+  {
+    "id": "radioactivity",
+    "title": "Isolation of Radium & Polonium",
+    "description": "Investigating radiation phenomena in uranium rays, leading to the discovery of two new elements: polonium and radium. This research coined the term 'radioactivity'.",
+    "year": 1898,
+    "status": "Completed",
+    "authors": ["marie-curie"],
+    "heroImage": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Marie_Curie_-_Mobile_X-Ray-Unit.jpg"
+  }
+]

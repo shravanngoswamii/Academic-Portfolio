@@ -1,0 +1,143 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+import AuthorLink from '../components/AuthorLink.astro';
+import bibFileRaw from '../data/publications.bib?raw';
+
+// --- Robust Custom BibTeX Parser ---
+function parseBibTeX(input: string) {
+    const entries = [];
+    // Split by @ at start of line to separate entries
+    const rawEntries = input.split(/@(\w+)\s*\{/g).slice(1);
+
+    for (let i = 0; i < rawEntries.length; i += 2) {
+        const type = rawEntries[i].trim();
+        const body = rawEntries[i+1];
+        if (!body) continue;
+
+        // Extract key (everything up to first comma)
+        const keyMatch = body.match(/^\s*([^,]+),/);
+        const key = keyMatch ? keyMatch[1].trim() : 'unknown';
+        
+        // Extract fields
+        const fields: Record<string, string> = { title: "Untitled", year: "0000" };
+        
+        // Regex to match: key = {value} OR key = "value" OR key = 123
+        // It handles newlines and multiple spaces
+        const fieldRegex = /(\w+)\s*=\s*(?:\{((?:[^{}]|{[^{}]*})*)\}|"((?:[^"]|\\")*)"|(\d+))/g;
+        
+        let match;
+        while ((match = fieldRegex.exec(body)) !== null) {
+            const fieldKey = match[1].toLowerCase();
+            // Group 2 is braced {}, Group 3 is quoted "", Group 4 is digits
+            const val = match[2] || match[3] || match[4] || "";
+            // Clean up whitespace and standard TeX commands if needed
+            fields[fieldKey] = val.replace(/\s+/g, ' ').trim();
+        }
+
+        // Parse Authors
+        let authors = [];
+        if (fields.author) {
+            authors = fields.author.split(/\s+and\s+/i).map(str => {
+                const parts = str.split(',');
+                // Format: "Doe, John" -> { first: "John", last: "Doe" }
+                // Format: "John Doe" -> { first: "John", last: "Doe" }
+                if (parts.length > 1) {
+                    return { first: parts[1].trim(), last: parts[0].trim() };
+                } else {
+                    const names = str.trim().split(' ');
+                    const last = names.pop() || "";
+                    const first = names.join(' ');
+                    return { first, last };
+                }
+            });
+        }
+
+        entries.push({ type, key, fields, authors });
+    }
+    return entries;
+}
+
+const publications = parseBibTeX(bibFileRaw).sort((a, b) => {
+    return (parseInt(b.fields.year) || 0) - (parseInt(a.fields.year) || 0);
+});
+
+// Helper to format author object to string
+const formatAuthor = (auth: { first: string, last: string }) => {
+    return auth.first ? `${auth.first} ${auth.last}` : auth.last;
+};
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Publications | ${SITE_TITLE}`} description="Academic Publications" />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Publications</h1>
+			<p>Selected peer-reviewed publications.</p>
+			
+			<div class="publication-list">
+				{publications.map((entry) => (
+					<article class="publication-item">
+						<span class="pub-title">
+                            {entry.fields.title.replace(/[{}]/g, '')}
+                        </span>
+						
+						<div class="pub-authors">
+							{entry.authors && entry.authors.map((auth, i) => (
+								<>
+                                    <AuthorLink nameOrSlug={formatAuthor(auth)} />
+                                    {i < entry.authors.length - 1 ? ', ' : ''}
+                                </>
+							))}
+						</div>
+						
+						<div class="pub-venue">
+                            {/* Intelligent venue selection based on available fields */}
+                            {
+                                (entry.fields.journal || 
+                                entry.fields.booktitle || 
+                                entry.fields.publisher || 
+                                entry.fields.school || 
+                                "Preprint").replace(/[{}]/g, '')
+                            }
+                            {entry.fields.year && <span> ({entry.fields.year})</span>}
+                        </div>
+
+						<div class="pub-links" style="margin-top: 0.5rem; font-size: 0.9rem;">
+							{entry.fields.pdf ? (
+                                <a href={entry.fields.pdf} target="_blank" class="btn-outline" style="padding: 2px 6px; font-size: 0.8rem;">
+                                    PDF
+                                </a>
+                            ) : entry.fields.url ? (
+                                <a href={entry.fields.url} target="_blank" class="btn-outline" style="padding: 2px 6px; font-size: 0.8rem;">
+                                    URL
+                                </a>
+                            ) : null}
+                            
+							{entry.fields.doi && <a href={`https://doi.org/${entry.fields.doi}`} target="_blank" style="margin-left: 0.5rem;">DOI</a>}
+                            
+                            {/* Optional: Add BibTeX Copy Feature */}
+                            <details style="display: inline-block; margin-left: 0.5rem;">
+                                <summary style="font-size: 0.8rem; cursor: pointer; color: var(--color-accent);">BibTeX</summary>
+                                <div style="position: absolute; background: #fff; border: 1px solid #ddd; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 10; width: 300px; overflow-x: auto;">
+                                    <pre style="margin: 0; font-size: 0.7rem;">{`@${entry.type}{${entry.key},\n  title={${entry.fields.title}},\n  author={${entry.fields.author || ''}},\n  year={${entry.fields.year}}\n}`}</pre>
+                                </div>
+                            </details>
+						</div>
+					</article>
+				))}
+
+                {publications.length === 0 && (
+                    <p>No publications found.</p>
+                )}
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

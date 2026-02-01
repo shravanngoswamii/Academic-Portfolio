@@ -1,0 +1,46 @@
+[
+  {
+    "id": "albert-einstein",
+    "name": "Albert Einstein",
+    "title": "Professor of Theoretical Physics",
+    "role": "Principal Investigator",
+    "bio": "Albert is a theoretical physicist widely held to be one of the greatest and most influential scientists of all time. He developed the theory of relativity and made important contributions to quantum mechanics.",
+    "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Albert_Einstein_Head.jpg/480px-Albert_Einstein_Head.jpg",
+    "email": "a.einstein@institute.edu",
+    "website": "https://einsteinpapers.press.princeton.edu/",
+    "google_scholar": "https://scholar.google.com/scholar?q=albert+einstein",
+    "sortOrder": 1,
+    "alumni": false
+  },
+  {
+    "id": "marie-curie",
+    "name": "Marie Curie",
+    "title": "Head of Radiology Lab",
+    "role": "Lead Researcher",
+    "bio": "Marie is a physicist and chemist who conducted pioneering research on radioactivity. She is the first woman to win a Nobel Prize and the only person to win a Nobel Prize in two scientific fields.",
+    "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Marie_Curie_c._1920s.jpg/440px-Marie_Curie_c._1920s.jpg",
+    "sortOrder": 2,
+    "alumni": false
+  },
+  {
+    "id": "alan-turing",
+    "name": "Alan Turing",
+    "title": "Reader in Mathematics",
+    "role": "Computational Scientist",
+    "bio": "Alan is a mathematician, computer scientist, logician, cryptanalyst, philosopher, and theoretical biologist. He is widely considered to be the father of theoretical computer science.",
+    "avatar": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Alan_Turing_Aged_16.jpg",
+    "website": "https://turing.org.uk",
+    "sortOrder": 3,
+    "alumni": false
+  },
+  {
+    "id": "ada-lovelace",
+    "name": "Ada Lovelace",
+    "title": "Mathematician",
+    "role": "Founder (Alumni)",
+    "bio": "Ada was a mathematician and writer, known for her work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine.",
+    "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ada_Lovelace_portrait.jpg/417px-Ada_Lovelace_portrait.jpg",
+    "sortOrder": 4,
+    "alumni": true
+  }
+]

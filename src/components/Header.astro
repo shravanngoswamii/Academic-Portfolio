@@ -1,0 +1,126 @@
+---
+import HeaderLink from './HeaderLink.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<header>
+	<nav>
+		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<div class="internal-links">
+			<HeaderLink href="/">Home</HeaderLink>
+			<HeaderLink href="/publications">Publications</HeaderLink>
+			<HeaderLink href="/projects">Projects</HeaderLink>
+			<HeaderLink href="/team">Team</HeaderLink>
+			<HeaderLink href="/blog">News</HeaderLink>
+		</div>
+        
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" aria-label="Toggle Dark Mode">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+	</nav>
+</header>
+
+<script>
+    // Toggle Logic
+    const handleToggleClick = () => {
+        const element = document.documentElement;
+        
+        const isDark = element.getAttribute('data-theme') === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
+        
+        if (newTheme === 'dark') {
+            element.setAttribute('data-theme', 'dark');
+        } else {
+            element.removeAttribute('data-theme');
+        }
+        localStorage.setItem('theme', newTheme);
+    };
+
+    document.getElementById('theme-toggle')?.addEventListener('click', handleToggleClick);
+</script>
+
+<style>
+	header {
+		margin: 0;
+		padding: 0 1em;
+		background: var(--color-bg-header); /* Variable background from global.css */
+        backdrop-filter: blur(12px); /* Stronger premium blur */
+        -webkit-backdrop-filter: blur(12px); /* Safari support */
+		border-bottom: 1px solid var(--color-header-border); /* Subtle border for definition */
+		position: sticky;
+		top: 0;
+		z-index: 100;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+	}
+	h2 {
+		margin: 0;
+		font-size: 1.3em;
+		font-family: var(--font-sans);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+	}
+	h2 a {
+		text-decoration: none;
+		color: var(--color-text-main);
+	}
+	nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		max-width: var(--max-width);
+		margin: 0 auto;
+		height: 4.5rem; /* Slightly taller for elegance */
+	}
+	nav a {
+		padding: 0.5em 0.75em;
+		color: var(--color-text-main);
+		border-bottom: 2px solid transparent; /* Thinner underline */
+		text-decoration: none;
+		font-size: 0.95rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+	}
+	nav a:hover {
+        color: var(--color-accent);
+    }
+	nav a.active {
+		text-decoration: none;
+		border-bottom-color: var(--color-accent);
+		color: var(--color-accent);
+	}
+    
+    /* Toggle Button Styling */
+    #theme-toggle {
+        background: transparent;
+        border: 1px solid var(--color-border);
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px; /* Softer corners */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text-main);
+        transition: all 0.2s ease;
+    }
+    #theme-toggle:hover {
+        background: var(--color-bg-offset);
+        border-color: var(--color-accent);
+        color: var(--color-accent);
+        transform: translateY(-1px);
+    }
+    
+    /* Icon swapping logic - Using global HTML attribute selector for reliability */
+    .moon-icon { display: none; }
+    .sun-icon { display: block; }
+    
+    /* When data-theme="dark" is on HTML, show moon, hide sun */
+    :global(html[data-theme="dark"]) .moon-icon { display: block; }
+    :global(html[data-theme="dark"]) .sun-icon { display: none; }
+
+	@media (max-width: 720px) {
+		.internal-links { display: none; }
+	}
+</style>

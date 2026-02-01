@@ -1,0 +1,59 @@
+---
+import authorsData from '../data/authors.json';
+
+interface Props {
+  nameOrSlug: string;
+}
+
+const { nameOrSlug } = Astro.props;
+
+// Normalizer: removes extra spaces, dots, and lowercase
+const normalize = (s: string) => {
+    if (!s) return "";
+    return s.toLowerCase().replace(/[^a-z0-9]/g, '');
+};
+
+const target = normalize(nameOrSlug);
+
+// 1. Try to find by ID first
+let author = authorsData.find(a => a.id === nameOrSlug);
+
+// 2. If not found, try to fuzzy match by Name
+if (!author && target) {
+    author = authorsData.find(a => {
+        const dbName = normalize(a.name);
+        // Check contains in both directions to handle partial matches
+        return dbName.includes(target) || target.includes(dbName);
+    });
+}
+---
+
+{author ? (
+    <span class="author-link">
+        {author.name}
+        <div class="author-tooltip">
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                {author.avatar ? (
+                    <img src={author.avatar} alt={author.name} />
+                ) : (
+                    <img src="https://placehold.co/50?text=User" alt="Avatar" />
+                )}
+                <div>
+                    <h4>{author.name}</h4>
+                    <span class="role">{author.title}</span>
+                </div>
+            </div>
+            
+            {author.bio && <p style="margin-top: 0.5rem;">{author.bio.slice(0, 100)}{author.bio.length > 100 ? '...' : ''}</p>}
+            
+            <div style="margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid #eee; font-size: 0.85rem;">
+                {author.website && <a href={author.website} target="_blank" style="margin-right: 0.75rem;">Website</a>}
+                {author.email && <a href={`mailto:${author.email}`} style="margin-right: 0.75rem;">Email</a>}
+                {author.google_scholar && <a href={author.google_scholar} target="_blank">Scholar</a>}
+            </div>
+        </div>
+    </span>
+) : (
+    // If no match, just display the name text
+    <span>{nameOrSlug.replace(/[{}]/g, '')}</span>
+)}
