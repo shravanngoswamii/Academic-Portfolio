@@ -15,76 +15,322 @@ const projects = projectsData.sort((a, b) => b.year - a.year);
 	<head>
 		<BaseHead title={`Projects | ${SITE_TITLE}`} description="Research Projects" />
 		<style>
-			.project-meta {
-				margin-top: 1rem;
-				font-size: 0.9rem;
+			.projects-section {
+				max-width: var(--max-width);
+				margin: 0 auto;
+			}
+
+			.projects-hero {
+				text-align: center;
+				margin-bottom: 6rem;
+				padding: 2rem 0;
+			}
+
+			.projects-hero h1 {
+				font-family: var(--font-serif);
+				font-size: 3.2rem;
+				margin: 0 0 1.25rem 0;
+				font-weight: 700;
+				color: var(--color-text-main);
+				letter-spacing: -0.025em;
+				line-height: 1.2;
+			}
+
+			.projects-hero p {
+				font-size: 1.1rem;
 				color: var(--color-text-muted);
+				max-width: 650px;
+				margin: 0 auto;
+				line-height: 1.8;
+				font-weight: 300;
+				letter-spacing: 0.3px;
+			}
+
+			.projects-grid {
 				display: flex;
+				flex-direction: column;
+				gap: 2.5rem;
+				margin-bottom: 3rem;
+			}
+
+			.project-card {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 2rem;
 				align-items: center;
+			}
+
+			.project-card:nth-child(even) {
+				direction: rtl;
+			}
+
+			.project-card:nth-child(even) > * {
+				direction: ltr;
+			}
+
+			.project-image {
+				position: relative;
+				overflow: hidden;
+				aspect-ratio: 16 / 9;
+				margin-bottom: 0;
+				border-radius: 0;
+				transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+			}
+
+			.project-content-wrapper {
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				gap: 1.25rem;
+			}
+
+			.project-card:hover .project-image {
+				opacity: 0.95;
+			}
+
+			.project-image img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+				opacity: 1;
+			}
+
+			.project-card:hover .project-image img {
+				transform: scale(1.03);
+				opacity: 0.98;
+			}
+
+			.project-badge {
+				position: absolute;
+				bottom: 1.25rem;
+				left: 1.25rem;
+				padding: 0.4rem 0.95rem;
+				background: rgba(0, 0, 0, 0.55);
+				color: white;
+				font-size: 0.6rem;
+				font-weight: 700;
+				text-transform: uppercase;
+				letter-spacing: 0.15em;
+				border-radius: 0;
+				backdrop-filter: blur(12px);
+				opacity: 0;
+				transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+			}
+
+			.project-card:hover .project-badge {
+				opacity: 1;
+			}
+
+			html[data-theme="light"] .project-badge {
+				background: rgba(255, 255, 255, 0.85);
+				color: var(--color-text-main);
+			}
+
+			.project-header {
+				margin-bottom: 1rem;
+			}
+
+			.project-year {
+				font-size: 0.7rem;
+				color: var(--color-accent);
+				font-weight: 700;
+				text-transform: uppercase;
+				letter-spacing: 0.15em;
+				margin-bottom: 0.75rem;
+				display: block;
+			}
+
+			.project-card h3 {
+				font-family: var(--font-serif);
+				font-size: 1.65rem;
+				margin: 0 0 1rem 0;
+				line-height: 1.4;
+				color: var(--color-text-main);
+				font-weight: 600;
+				letter-spacing: -0.015em;
+			}
+
+			.project-card h3 a {
+				color: inherit;
+				text-decoration: none;
+				transition: color 0.3s ease;
+				position: relative;
+			}
+
+			.project-card h3 a::after {
+				content: '';
+				position: absolute;
+				bottom: -2px;
+				left: 0;
+				width: 0;
+				height: 1px;
+				background: var(--color-accent);
+				transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+			}
+
+			.project-card:hover h3 a::after {
+				width: 100%;
+			}
+
+			.project-description {
+				color: var(--color-text-main);
+				font-size: 0.95rem;
+				line-height: 1.8;
+				margin-bottom: 1.75rem;
+				font-weight: 400;
+				letter-spacing: 0.2px;
+			}
+
+			.project-meta {
+				display: flex;
+				align-items: baseline;
 				gap: 0.5rem;
+				font-size: 0.8rem;
+				margin-bottom: 2rem;
 				flex-wrap: wrap;
 			}
+
 			.meta-label {
-				font-weight: 600;
+				font-weight: 700;
+				color: var(--color-text-muted);
+				text-transform: uppercase;
+				letter-spacing: 0.12em;
+				font-size: 0.65rem;
+			}
+
+			.author-names {
 				color: var(--color-text-main);
-				margin-right: 0.25rem;
+				font-weight: 500;
+				letter-spacing: 0.3px;
+			}
+
+			.read-more {
+				display: inline-flex;
+				font-size: 0.75rem;
+				color: var(--color-accent);
+				text-decoration: none;
+				font-weight: 700;
+				text-transform: uppercase;
+				letter-spacing: 0.12em;
+				transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+				position: relative;
+				width: fit-content;
+				padding-bottom: 1px;
+			}
+
+			.read-more::before {
+				content: '';
+				position: absolute;
+				bottom: -1px;
+				left: 0;
+				right: auto;
+				height: 1px;
+				background: var(--color-accent);
+				transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+				width: 0;
+			}
+
+			.read-more:hover::before {
+				width: 100%;
+			}
+
+			.read-more::after {
+				content: ' →';
+				transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+				display: inline-block;
+			}
+
+			.read-more:hover::after {
+				transform: translateX(3px);
+			}
+
+			@media (max-width: 768px) {
+				.projects-grid {
+					grid-template-columns: 1fr;
+					gap: 3.5rem;
+				}
+
+				.projects-hero h1 {
+					font-size: 2.2rem;
+				}
+
+				.project-image {
+					height: 260px;
+					margin-bottom: 1.75rem;
+				}
+
+				.project-card h3 {
+					font-size: 1.35rem;
+				}
+			}
+
+			html[data-theme="light"] .project-card h3 a {
+				color: var(--color-text-main);
 			}
 		</style>
 	</head>
 	<body>
 		<Header />
-		<main>
-			<h1>Research Projects</h1>
-			<p>Ongoing and completed research initiatives led by our lab members.</p>
+		<main class="projects-section">
+			<div class="projects-hero">
+				<h1>Research Projects</h1>
+				<p>Landmark philosophical investigations that have fundamentally shaped the course of Western intellectual history.</p>
+			</div>
 			
-			<div class="grid-2">
+			<div class="projects-grid">
 				{projects.length > 0 ? projects.map((project) => (
-					<div class="project-card">
-						{project.heroImage ? (
-							<img 
-								src={project.heroImage} 
-								alt={project.title}
-								style="width: 100%; height: 200px; object-fit: cover; display: block;"
-							/>
-						) : (
-							<img 
-								src="https://placehold.co/600x400?text=Project" 
-								alt="Project Placeholder"
-								style="width: 100%; height: 200px; object-fit: cover; display: block;"
-							/>
-						)}
-						<div class="project-content">
-							<span class="project-status">{project.status} &bull; {project.year}</span>
+					<article class="project-card">
+						<div class="project-image">
+							{project.heroImage ? (
+								<img 
+									src={project.heroImage} 
+									alt={project.title}
+								/>
+							) : (
+								<img 
+									src="https://placehold.co/600x400" 
+									alt="Project Placeholder"
+								/>
+							)}
+							<span class="project-badge">{project.status}</span>
+						</div>
+
+						<div class="project-content-wrapper">
+							<div class="project-header">
+								<span class="project-year">{project.year > 0 ? project.year : 'Classical'}</span>
+								<h3>
+									{project.link ? (
+										<a href={project.link} target="_blank">{project.title}</a>
+									) : (
+										project.title
+									)}
+								</h3>
+							</div>
 							
-							<h3 style="margin-top: 0; font-size: 1.25rem; line-height: 1.3;">
-								{project.link ? (
-									<a href={project.link} target="_blank" style="color: inherit; text-decoration: none;">{project.title}</a>
-								) : (
-									project.title
-								)}
-							</h3>
-							
-							<p style="margin-bottom: 1rem;">{project.description}</p>
+							<p class="project-description">{project.description}</p>
 							
 							{project.authors && project.authors.length > 0 && (
 								<div class="project-meta">
-									<span class="meta-label">Team:</span>
-									{project.authors.map((authorId, i) => (
-										<span>
-											<AuthorLink nameOrSlug={authorId} />
-											{i < project.authors!.length - 1 ? ', ' : ''}
-										</span>
-									))}
+									<span class="meta-label">By</span>
+									<span class="author-names">
+										{project.authors.map((authorId, i) => (
+											<span>
+												<AuthorLink nameOrSlug={authorId} />
+												{i < project.authors!.length - 1 ? ', ' : ''}
+											</span>
+										))}
+									</span>
 								</div>
 							)}
 
 							{project.link && (
-								<div style="margin-top: 1.5rem;">
-									<a href={project.link} target="_blank" class="btn-outline" style="font-size: 0.85rem;">View Project &rarr;</a>
-								</div>
+								<a href={project.link} target="_blank" class="read-more">
+									Learn More
+								</a>
 							)}
 						</div>
-					</div>
+					</article>
 				)) : (
                     <p>No projects found in <code>src/data/projects.json</code>.</p>
                 )}

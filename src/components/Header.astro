@@ -162,24 +162,35 @@ import { SITE_TITLE } from '../consts';
 
     .mobile-menu {
         position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: var(--color-bg);
-        border-bottom: 1px solid var(--color-header-border);
-        padding: 1rem;
+        top: calc(100% + 0.5rem);
+        right: 1rem;
+        width: fit-content;
+        min-width: 180px;
+        background: var(--color-bg-header);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--color-header-border);
+        border-radius: 12px;
+        padding: 0.5rem;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        gap: 0.125rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+        z-index: 200;
+        animation: menuFadeIn 0.2s ease;
+    }
+    @keyframes menuFadeIn {
+        from { opacity: 0; transform: translateY(-8px) scale(0.96); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
     }
     .mobile-menu a {
-        padding: 0.75rem 1rem;
+        padding: 0.5rem 0.875rem;
         text-decoration: none;
         color: var(--color-text-main);
         font-weight: 500;
-        border-radius: 6px;
-        transition: background-color 0.2s;
+        font-size: 0.9rem;
+        border-radius: 8px;
+        transition: background-color 0.2s, color 0.2s;
     }
     .mobile-menu a:hover {
         background: var(--color-bg-offset);

@@ -108,9 +108,15 @@ const formatAuthor = (auth: Author) => {
             .pub-title { font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 0.25rem; font-family: var(--font-serif); font-size: 1.1rem; }
             .pub-meta { font-size: 0.9rem; color: var(--color-text-muted); }
 
+			.hero-buttons {
+				display: flex;
+				gap: 1rem;
+				flex-wrap: wrap;
+			}
 			@media (max-width: 768px) {
 				.hero { flex-direction: column-reverse; text-align: center; padding: 2rem 0; gap: 2rem; }
                 .hero-image img { width: 200px; height: 200px; }
+                .hero-buttons { justify-content: center; }
 			}
 		</style>
 	</head>
@@ -127,13 +133,13 @@ const formatAuthor = (auth: Author) => {
 					<p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 2rem;">
 						Welcome to my academic portfolio. My research focuses on <strong>Philosophy of Culture, Morality, and the Will to Power</strong>. I lead the Philosophy Group where we challenge conventional thinking and explore the transformation of human values and civilization.
 					</p>
-					<div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+					<div class="hero-buttons">
 						<a href={`${import.meta.env.BASE_URL}/publications`} class="btn">View Publications</a>
 						<a href={`${import.meta.env.BASE_URL}/projects`} class="btn btn-outline">Current Projects</a>
 					</div>
 				</div>
 				<div class="hero-image">
-					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Nietzsche187a.jpg/440px-Nietzsche187a.jpg" alt="Professor Portrait" />
+					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Nietzsche187a.jpg/500px-Nietzsche187a.jpg" alt="Professor Portrait" />
 				</div>
 			</section>
 
