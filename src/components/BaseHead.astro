@@ -59,7 +59,7 @@ const imageUrl = typeof image === 'string'
 			if (matchMedia('(prefers-color-scheme: dark)').matches) theme = 'dark';
 		}
 		paintTheme(theme);
-		root.setAttribute('data-theme-ready', 'true');
+		document.addEventListener('DOMContentLoaded', () => root.setAttribute('data-theme-ready', 'true'), { once: true });
 		window.__setPreferredTheme = paintTheme;
 	})();
 </script>
@@ -70,6 +70,11 @@ const imageUrl = typeof image === 'string'
 	}
 	html[data-theme='dark'], html[data-theme='dark'] body { background-color: #0f172a; color-scheme: dark; }
 	html[data-theme='light'], html[data-theme='light'] body { background-color: #ffffff; color-scheme: light; }
+	/* Suppress all transitions until the page is fully styled — prevents flash on load */
+	html:not([data-theme-ready]) *, html:not([data-theme-ready]) *::before, html:not([data-theme-ready]) *::after {
+		transition: none !important;
+		animation: none !important;
+	}
 </style>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
