@@ -7,6 +7,7 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import AuthorLink from '../../components/AuthorLink.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { url } from '../../utils/paths';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -147,7 +148,7 @@ const posts = (await getCollection('blog')).sort(
                         <article class="blog-post-card">
                             <div class="blog-content">
                                 <h2 class="blog-title">
-                                    <a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`}>{post.data.title}</a>
+                                    <a href={url(`/blog/${post.id}/`)}>{post.data.title}</a>
                                 </h2>
                                 
                                 <div class="blog-meta">
@@ -170,14 +171,14 @@ const posts = (await getCollection('blog')).sort(
                                     {post.data.description}
                                 </p>
                                 
-                                <a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`} class="read-more">Read Article &rarr;</a>
+                                <a href={url(`/blog/${post.id}/`)} class="read-more">Read Article &rarr;</a>
                             </div>
 
-                            <a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`} class="blog-thumb">
+                            <a href={url(`/blog/${post.id}/`)} class="blog-thumb">
                                 {post.data.heroImage ? (
-                                    <Image width={560} height={315} src={post.data.heroImage} alt="" />
+                                    <Image width={560} height={315} src={post.data.heroImage} alt={post.data.title} />
                                 ) : (
-                                    <img src="https://placehold.co/560x315/f3f4f6/1f2937?text=Article" alt="No image" />
+                                    <img src={url(`/blog/${post.id}.png`)} alt={post.data.title} />
                                 )}
                             </a>
                         </article>

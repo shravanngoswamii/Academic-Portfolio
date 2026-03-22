@@ -3,9 +3,9 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE } from '../consts';
-import { Image } from 'astro:assets';
 import AuthorLink from '../components/AuthorLink.astro';
 import projectsData from '../data/projects.json';
+import { url } from '../utils/paths';
 
 const projects = projectsData.sort((a, b) => b.year - a.year);
 ---
@@ -173,17 +173,10 @@ const projects = projectsData.sort((a, b) => b.year - a.year);
 				{projects.length > 0 ? projects.map((project) => (
 					<article class="project-card">
 						<div class="project-image">
-							{project.heroImage ? (
-								<img 
-									src={project.heroImage} 
-									alt={project.title}
-								/>
-							) : (
-								<img 
-									src="https://placehold.co/600x400" 
-									alt="Project Placeholder"
-								/>
-							)}
+							<img
+								src={url(`/projects/${project.id}.png`)}
+								alt={project.title}
+							/>
 							<span class="project-badge">{project.status}</span>
 						</div>
 

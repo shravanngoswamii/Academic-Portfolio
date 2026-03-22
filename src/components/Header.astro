@@ -1,18 +1,22 @@
 ---
 import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE } from '../consts';
+import { CV_URL, SITE_TITLE } from '../consts';
+import { url } from '../utils/paths';
+
+const cvHref = CV_URL ? url(CV_URL) : null;
 ---
 
 <header>
 	<nav>
-		<h2><a href={import.meta.env.BASE_URL}>{SITE_TITLE}</a></h2>
+		<h2><a href={url('/')}>{SITE_TITLE}</a></h2>
         
 		<div class="internal-links">
-			<HeaderLink href={import.meta.env.BASE_URL}>Home</HeaderLink>
-			<HeaderLink href={`${import.meta.env.BASE_URL}/publications`}>Publications</HeaderLink>
-			<HeaderLink href={`${import.meta.env.BASE_URL}/projects`}>Projects</HeaderLink>
-			<HeaderLink href={`${import.meta.env.BASE_URL}/team`}>Team</HeaderLink>
-			<HeaderLink href={`${import.meta.env.BASE_URL}/blog`}>News</HeaderLink>
+			<HeaderLink href={url('/')}>Home</HeaderLink>
+			<HeaderLink href={url('/publications')}>Publications</HeaderLink>
+			<HeaderLink href={url('/projects')}>Projects</HeaderLink>
+			<HeaderLink href={url('/team')}>Team</HeaderLink>
+			<HeaderLink href={url('/blog')}>News</HeaderLink>
+			{cvHref && <HeaderLink href={cvHref} target="_blank">CV</HeaderLink>}
 		</div>
 
         <div class="header-actions">
@@ -31,11 +35,12 @@ import { SITE_TITLE } from '../consts';
 	</nav>
 
     <div id="mobile-menu" class="mobile-menu hidden">
-        <a href={import.meta.env.BASE_URL}>Home</a>
-        <a href={`${import.meta.env.BASE_URL}/publications`}>Publications</a>
-        <a href={`${import.meta.env.BASE_URL}/projects`}>Projects</a>
-        <a href={`${import.meta.env.BASE_URL}/team`}>Team</a>
-        <a href={`${import.meta.env.BASE_URL}/blog`}>News</a>
+        <a href={url('/')}>Home</a>
+        <a href={url('/publications')}>Publications</a>
+        <a href={url('/projects')}>Projects</a>
+        <a href={url('/team')}>Team</a>
+        <a href={url('/blog')}>News</a>
+        {cvHref && <a href={cvHref} target="_blank">CV</a>}
     </div>
 </header>
 

@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { generateOgImage } from "../utils/generateOgImage";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import projectsData from "../data/projects.json";
 
 export async function getStaticPaths() {
     const posts = await getCollection('blog');
@@ -22,10 +23,17 @@ export async function getStaticPaths() {
         props: { title: post.data.title, subtitle: 'Blog Post' },
     }));
 
-    return [...staticPages, ...blogPages];
+    const projectPages = projectsData.map((project) => ({
+        params: { route: `projects/${project.id}` },
+        props: { title: project.title, subtitle: 'Research Project' },
+    }));
+
+    return [...staticPages, ...blogPages, ...projectPages];
 }
 
-export const GET: APIRoute = async ({ props }) =>
-    new Response(await generateOgImage(props.title as string, props.subtitle as string), {
+export const GET: APIRoute = async ({ props }) => {
+    const safeTitle = (props.title as string).replace(/&/g, 'and');
+    return new Response(await generateOgImage(safeTitle, props.subtitle as string), {
         headers: { "Content-Type": "image/png" },
     });
+};

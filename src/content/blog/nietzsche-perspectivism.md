@@ -2,7 +2,6 @@
 title: 'Perspectivism: The Philosophy of Multiple Truths'
 description: 'An exploration of perspectivism and why there are no absolute truths, only interpretations.'
 pubDate: 'Jan 15 2024'
-heroImage: '../../assets/blog-placeholder-3.jpg'
 ---
 
 One of my most profound contributions to philosophy is the concept of perspectivism—the recognition that all knowledge is fundamentally perspectival, shaped by the standpoint of the knower. This challenges the very notion that there exists an objective, God's-eye view of reality independent of our positions and values.

@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
 import bibFileRaw from '../data/publications.bib?raw';
+import { url } from '../utils/paths';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -134,8 +135,8 @@ const formatAuthor = (auth: Author) => {
 						Welcome to my academic portfolio. My research focuses on <strong>Philosophy of Culture, Morality, and the Will to Power</strong>. I lead the Philosophy Group where we challenge conventional thinking and explore the transformation of human values and civilization.
 					</p>
 					<div class="hero-buttons">
-						<a href={`${import.meta.env.BASE_URL}/publications`} class="btn">View Publications</a>
-						<a href={`${import.meta.env.BASE_URL}/projects`} class="btn btn-outline">Current Projects</a>
+						<a href={url('/publications')} class="btn">View Publications</a>
+						<a href={url('/projects')} class="btn btn-outline">Current Projects</a>
 					</div>
 				</div>
 				<div class="hero-image">
@@ -164,7 +165,7 @@ const formatAuthor = (auth: Author) => {
                         )) : <p>No publications found.</p>}
                     </div>
                     <div style="margin-top: 1.5rem;">
-                        <a href={`${import.meta.env.BASE_URL}/publications`} style="font-weight: 600;">View Full List &rarr;</a>
+                        <a href={url('/publications')} style="font-weight: 600;">View Full List &rarr;</a>
                     </div>
                 </section>
 
@@ -173,7 +174,7 @@ const formatAuthor = (auth: Author) => {
                     <ul style="list-style: none; padding: 0;">
                         {posts.map((post) => (
                             <li style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px dashed var(--color-border);">
-                                <a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`} style="display: block; font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; color: var(--color-text-main); margin-bottom: 0.25rem;">
+                                <a href={url(`/blog/${post.id}/`)} style="display: block; font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; color: var(--color-text-main); margin-bottom: 0.25rem;">
                                     {post.data.title}
                                 </a>
                                 <small style="color: var(--color-text-muted); text-transform: uppercase; font-size: 0.8rem;">
@@ -186,7 +187,7 @@ const formatAuthor = (auth: Author) => {
                             </li>
                         ))}
                     </ul>
-                    <a href={`${import.meta.env.BASE_URL}/blog`} style="font-weight: 600;">View Blog &rarr;</a>
+                    <a href={url('/blog')} style="font-weight: 600;">View Blog &rarr;</a>
                 </section>
             </div>
 		</main>
