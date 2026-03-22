@@ -20,13 +20,35 @@
 		window.__setPreferredTheme = paintTheme;
 	})();
 </script><style>
+	/* CSS variables inline — available immediately in all modes (dev + prod), before any external CSS */
+	:root {
+		--color-bg: #ffffff;
+		--color-bg-offset: #ffffff;
+		--color-bg-header: rgba(255, 255, 255, 0.85);
+		--color-text-main: #1a1a1a;
+		--color-text-muted: #555555;
+		--color-accent: #003366;
+		--color-border: #eaeaea;
+	}
+	[data-theme='dark'] {
+		--color-bg: #0f172a;
+		--color-bg-offset: #0f172a;
+		--color-bg-header: rgba(15, 23, 42, 0.8);
+		--color-text-main: #e2e8f0;
+		--color-text-muted: #94a3b8;
+		--color-accent: #60a5fa;
+		--color-border: #334155;
+	}
 	html, body { min-height: 100%; background-color: #ffffff; }
 	@media (prefers-color-scheme: dark) {
 		html:not([data-theme='light']), html:not([data-theme='light']) body { background-color: #0f172a; }
 	}
 	html[data-theme='dark'], html[data-theme='dark'] body { background-color: #0f172a; color-scheme: dark; }
 	html[data-theme='light'], html[data-theme='light'] body { background-color: #ffffff; color-scheme: light; }
-	/* Suppress all transitions until the page is fully styled — prevents flash on load */
+	/* Header: higher specificity (0,1,2) beats scoped rule (0,1,1) — no flash even before component CSS loads */
+	html[data-theme='dark'] header { background: rgba(15, 23, 42, 0.8); }
+	html:not([data-theme='dark']) header { background: rgba(255, 255, 255, 0.85); }
+	/* Suppress all transitions until page is fully styled */
 	html:not([data-theme-ready]) *, html:not([data-theme-ready]) *::before, html:not([data-theme-ready]) *::after {
 		transition: none !important;
 		animation: none !important;
