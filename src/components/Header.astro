@@ -45,12 +45,36 @@ const cvHref = CV_URL ? url(CV_URL) : null;
 </header>
 
 <script>
+    type Theme = 'light' | 'dark';
+    type ThemeWindow = Window & typeof globalThis & {
+        __setPreferredTheme?: (theme: Theme) => Theme;
+    };
+
+    const themeWindow = window as ThemeWindow;
+
+    const applyTheme = (theme: Theme): Theme => {
+        const element = document.documentElement;
+        const resolvedTheme = theme === 'dark' ? 'dark' : 'light';
+        const backgroundColor = resolvedTheme === 'dark' ? '#0f172a' : '#ffffff';
+
+        element.setAttribute('data-theme', resolvedTheme);
+        element.setAttribute('data-theme-ready', 'true');
+        element.style.backgroundColor = backgroundColor;
+        element.style.colorScheme = resolvedTheme;
+        document.body?.style.setProperty('background-color', backgroundColor);
+
+        return resolvedTheme;
+    };
+
     const handleToggleClick = () => {
         const element = document.documentElement;
         const isDark = element.getAttribute('data-theme') === 'dark';
-        const newTheme = isDark ? 'light' : 'dark';
-        if (newTheme === 'dark') element.setAttribute('data-theme', 'dark');
-        else element.removeAttribute('data-theme');
+        const newTheme: Theme = isDark ? 'light' : 'dark';
+        if (typeof themeWindow.__setPreferredTheme === 'function') {
+            themeWindow.__setPreferredTheme(newTheme);
+        } else {
+            applyTheme(newTheme);
+        }
         localStorage.setItem('theme', newTheme);
     };
 

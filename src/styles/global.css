@@ -67,7 +67,11 @@
 html {
 	box-sizing: border-box;
 	scroll-behavior: smooth;
-	background-color: var(--color-bg);
+	background-color: #ffffff;
+}
+
+html[data-theme="light"] {
+	background-color: #ffffff;
 	color-scheme: light;
 }
 
