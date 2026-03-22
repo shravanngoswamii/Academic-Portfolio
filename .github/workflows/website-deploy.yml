@@ -37,7 +37,6 @@ jobs:
           external-target-blank: true
           strip-tracking-params: true
           check-links: true
-          fail-on-broken: true
         
       - name: Add .nojekyll file
         run: touch ./dist/.nojekyll

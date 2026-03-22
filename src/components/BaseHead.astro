@@ -51,21 +51,35 @@ const imageUrl = typeof image === 'string'
 	href={new URL('rss.xml', Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
+<meta name="color-scheme" content="light dark" />
 
 <script is:inline>
-    const getTheme = () => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-            return localStorage.getItem('theme');
+    (() => {
+        const root = document.documentElement;
+        const storedTheme = typeof localStorage !== 'undefined' ? localStorage.getItem('theme') : null;
+        const theme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+        if (theme === 'dark') {
+            root.setAttribute('data-theme', 'dark');
+        } else {
+            root.removeAttribute('data-theme');
         }
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
+
+        root.style.backgroundColor = theme === 'dark' ? '#0f172a' : '#ffffff';
+        root.style.colorScheme = theme;
+
+        const markReady = () => {
+            root.setAttribute('data-theme-ready', 'true');
+            root.style.removeProperty('background-color');
+            root.style.removeProperty('color-scheme');
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', markReady, { once: true });
+        } else {
+            markReady();
         }
-        return 'light';
-    };
-    const theme = getTheme();
-    if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-    }
+    })();
 </script>
 
 <link rel="preload" href={url('/fonts/atkinson-regular.woff')} as="font" type="font/woff" crossorigin />

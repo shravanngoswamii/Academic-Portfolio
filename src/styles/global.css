@@ -67,12 +67,26 @@
 html {
 	box-sizing: border-box;
 	scroll-behavior: smooth;
+	background-color: var(--color-bg);
+	color-scheme: light;
+}
+
+html[data-theme="dark"] {
+	background-color: #0f172a;
+	color-scheme: dark;
 }
 
 *,
 *:before,
 *:after {
 	box-sizing: inherit;
+}
+
+html:not([data-theme-ready]) body,
+html:not([data-theme-ready]) body *,
+html:not([data-theme-ready]) body *::before,
+html:not([data-theme-ready]) body *::after {
+	transition: none !important;
 }
 
 body {
@@ -250,11 +264,6 @@ a:hover {
 .bibtex-panel::-webkit-scrollbar-thumb {
 	background-color: var(--color-border);
 	border-radius: 10px;
-}
-
-.bibtex-panel {
-	scrollbar-width: thin;
-	scrollbar-color: var(--color-border) transparent;
 }
 
 /* Blog Row Listing */
