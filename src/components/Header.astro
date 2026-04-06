@@ -36,6 +36,7 @@ const cvHref = CV_URL ? url(CV_URL) : null;
 
     <div id="mobile-menu" class="mobile-menu hidden">
         <div class="mobile-menu-header">
+            <span class="mobile-menu-title">Menu</span>
             <button id="search-toggle-mobile" class="search-toggle" aria-label="Search site">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </button>
@@ -163,10 +164,19 @@ const cvHref = CV_URL ? url(CV_URL) : null;
 
     .mobile-menu-header {
         display: flex;
-        justify-content: flex-end;
+        align-items: center;
+        justify-content: space-between;
         padding-bottom: 0.25rem;
         border-bottom: 1px solid var(--color-border);
         margin-bottom: 0.25rem;
+    }
+    .mobile-menu-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--color-text-muted);
+        padding-left: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
 
     #menu-toggle {
