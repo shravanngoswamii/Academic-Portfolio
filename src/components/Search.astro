@@ -204,6 +204,12 @@ import "@pagefind/default-ui/css/ui.css";
     --pagefind-ui-border-width: 1px;
     --pagefind-ui-font: var(--font-sans);
   }
+
+  :global(.pagefind-ui__search-input),
+  :global(.pagefind-ui__button) {
+    background-color: var(--color-bg-offset) !important;
+    color: var(--color-text-main) !important;
+  }
   
   :global(#pagefind__search .pagefind-ui__search-input:focus) {
     outline: none;
