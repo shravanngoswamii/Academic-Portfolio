@@ -10,11 +10,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.2",
-    "@astrojs/rss": "^4.0.17",
-    "@astrojs/sitemap": "^3.7.1",
+    "@astrojs/mdx": "^5.0.3",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.2",
     "@resvg/resvg-js": "^2.6.2",
-    "astro": "^6.0.8",
+    "astro": "^6.1.4",
     "bibliography": "^0.1.0",
     "satori": "^0.25.0",
     "satori-html": "^0.3.2",
