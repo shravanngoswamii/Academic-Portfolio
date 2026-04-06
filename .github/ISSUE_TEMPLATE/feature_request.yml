@@ -1,0 +1,56 @@
+name: Feature request
+description: Suggest an idea to improve the project
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing an idea. Please explain the problem and proposed solution clearly.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Feature summary
+      description: One-line summary of the feature
+      placeholder: Add reading time to blog posts
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What problem does this solve?
+      placeholder: It is hard for readers to estimate article length.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe your preferred implementation
+      placeholder: Show estimated reading time below blog title.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any other approaches you considered
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Mockups, references, links, or examples
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues before creating this request
+          required: true
