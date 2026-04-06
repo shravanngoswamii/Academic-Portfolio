@@ -141,7 +141,7 @@ a:hover {
 /* Buttons */
 .btn {
 	display: inline-block;
-	background: var(--color-accent);
+	background-color: var(--color-accent);
 	color: var(--color-bg);
 	font-weight: 600;
 	padding: 0.5rem 1rem;
@@ -192,7 +192,7 @@ a:hover {
 	bottom: 100%;
 	left: 50%;
 	transform: translateX(-50%) translateY(0);
-	background: var(--color-bg);
+	background-color: var(--color-bg);
 	color: var(--color-text-main);
 	border: 1px solid var(--color-border);
 	box-shadow: var(--shadow-lg);
@@ -354,7 +354,7 @@ a:hover {
 
 /* Project Card Override */
 .project-card {
-	background-color: var(--color-bg);
+	background-color: var(--color-bg-offset);
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius);
 }

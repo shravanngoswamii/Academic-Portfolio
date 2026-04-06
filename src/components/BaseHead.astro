@@ -47,7 +47,7 @@ const imageUrl = typeof image === 'string'
 		const paintTheme = (theme) => {
 			const dark = theme === 'dark';
 			root.setAttribute('data-theme', dark ? 'dark' : 'light');
-			root.style.backgroundColor = dark ? '#0f172a' : '#ffffff';
+			root.style.setProperty('background-color', dark ? 'var(--color-bg)' : 'var(--color-bg)');
 			root.style.colorScheme = dark ? 'dark' : 'light';
 		};
 		let theme = 'light';
@@ -83,12 +83,12 @@ const imageUrl = typeof image === 'string'
 		--color-accent: #60a5fa;
 		--color-border: #334155;
 	}
-	html, body { min-height: 100%; background-color: #ffffff; }
+	html, body { min-height: 100%; background-color: var(--color-bg); }
 	@media (prefers-color-scheme: dark) {
-		html:not([data-theme='light']), html:not([data-theme='light']) body { background-color: #0f172a; }
+		html:not([data-theme='light']), html:not([data-theme='light']) body { background-color: var(--color-bg); }
 	}
-	html[data-theme='dark'], html[data-theme='dark'] body { background-color: #0f172a; color-scheme: dark; }
-	html[data-theme='light'], html[data-theme='light'] body { background-color: #ffffff; color-scheme: light; }
+	html[data-theme='dark'], html[data-theme='dark'] body { background-color: var(--color-bg); color-scheme: dark; }
+	html[data-theme='light'], html[data-theme='light'] body { background-color: var(--color-bg); color-scheme: light; }
 	/* Critical header layout — prevents FOUC before component CSS loads */
 	header {
 		position: sticky;
@@ -106,8 +106,7 @@ const imageUrl = typeof image === 'string'
 		margin: 0 auto;
 		height: 4.5rem;
 	}
-	html[data-theme='dark'] header { background-color: rgba(15, 23, 42, 0.8); }
-	html:not([data-theme='dark']) header { background-color: rgba(255, 255, 255, 0.85); }
+	header { background-color: var(--color-bg-header); }
 	/* Critical card backgrounds — prevents white flash in dark mode */
 	.project-card, .interactive-card {
 		background-color: var(--color-bg-offset);
