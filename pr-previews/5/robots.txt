@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://shravangoswami.com/Academic-Portfolio/pr-previews/5sitemap-index.xml
