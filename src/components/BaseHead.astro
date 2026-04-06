@@ -47,7 +47,7 @@ const imageUrl = typeof image === 'string'
 		const paintTheme = (theme) => {
 			const dark = theme === 'dark';
 			root.setAttribute('data-theme', dark ? 'dark' : 'light');
-			root.style.setProperty('background-color', dark ? 'var(--color-bg)' : 'var(--color-bg)');
+			root.style.setProperty('background-color', 'var(--color-bg)');
 			root.style.colorScheme = dark ? 'dark' : 'light';
 		};
 		let theme = 'light';
@@ -108,7 +108,7 @@ const imageUrl = typeof image === 'string'
 	}
 	header { background-color: var(--color-bg-header); }
 	/* Critical card backgrounds — prevents white flash in dark mode */
-	.project-card, .interactive-card {
+	.project-card, .interactive-card, .pi-card, .collab-card {
 		background-color: var(--color-bg-offset);
 		border-color: var(--color-border);
 	}

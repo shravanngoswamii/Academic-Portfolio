@@ -168,7 +168,7 @@ const withFallback = (member: AuthorRecord) => ({
 				const profile = withFallback(member);
 				return (
 					<div class="pi-card author-modal-trigger" data-member={JSON.stringify(member)}>
-						<img src={profile.avatar || profile.fallbackAvatar} alt={profile.name} onerror={`this.onerror=null;this.src='${profile.fallbackAvatar}'`} />
+						<img src={profile.avatar || profile.fallbackAvatar} alt={profile.name} width="160" height="160" onerror={`this.onerror=null;this.src='${profile.fallbackAvatar}'`} />
 						<div class="pi-info">
 							<h3>{profile.name}</h3>
 							<span class="pi-title">{profile.title}</span>
@@ -188,6 +188,8 @@ const withFallback = (member: AuthorRecord) => ({
 								src={profile.avatar || profile.fallbackAvatar}
 								alt={profile.name}
 								class="team-avatar"
+								width="140"
+								height="140"
 								onerror={`this.onerror=null;this.src='${profile.fallbackAvatar}'`}
 							/>
 							<span class="team-name">{profile.name}</span>
@@ -210,6 +212,8 @@ const withFallback = (member: AuthorRecord) => ({
 										src={profile.avatar || profile.fallbackAvatar}
 										alt={profile.name}
 										class="team-avatar"
+										width="140"
+										height="140"
 										onerror={`this.onerror=null;this.src='${profile.fallbackAvatar}'`}
 									/>
 									<span class="team-name">{profile.name}</span>
@@ -234,6 +238,8 @@ const withFallback = (member: AuthorRecord) => ({
 										src={profile.avatar || profile.fallbackAvatar}
 										alt={profile.name}
 										class="team-avatar"
+										width="140"
+										height="140"
 										onerror={`this.onerror=null;this.src='${profile.fallbackAvatar}'`}
 									/>
 									<span class="team-name">{profile.name}</span>
@@ -254,7 +260,7 @@ const withFallback = (member: AuthorRecord) => ({
 							const profile = withFallback(member);
 							return (
 								<div class="collab-card author-modal-trigger" data-member={JSON.stringify(member)}>
-									<img src={profile.avatar || profile.fallbackAvatar} alt={profile.name} onerror={`this.onerror=null;this.src='${profile.fallbackAvatar}'`} />
+									<img src={profile.avatar || profile.fallbackAvatar} alt={profile.name} width="48" height="48" onerror={`this.onerror=null;this.src='${profile.fallbackAvatar}'`} />
 									<div class="collab-info">
 										<span class="collab-name">{profile.name}</span>
 										<span class="collab-affil">{profile.title}</span>
