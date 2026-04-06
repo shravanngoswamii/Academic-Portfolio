@@ -35,6 +35,7 @@ jobs:
         uses: shravanngoswamii/html-link-action@v1
         with:
           site-dir: dist
+          nofollow: true
           noopener: true
           noreferrer: true
           external-target-blank: true
