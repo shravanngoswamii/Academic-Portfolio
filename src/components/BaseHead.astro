@@ -83,12 +83,14 @@ const imageUrl = typeof image === 'string'
 		--color-accent: #60a5fa;
 		--color-border: #334155;
 	}
-	html, body { min-height: 100%; background-color: #ffffff; }
-	@media (prefers-color-scheme: dark) {
-		html:not([data-theme='light']), html:not([data-theme='light']) body { background-color: #0f172a; }
-	}
+	html, body { min-height: 100%; }
+	/* Apply background color based on theme attribute or system preference */
 	html[data-theme='dark'], html[data-theme='dark'] body { background-color: #0f172a; color-scheme: dark; }
 	html[data-theme='light'], html[data-theme='light'] body { background-color: #ffffff; color-scheme: light; }
+	/* System preference fallback - only applies if no data-theme attribute is set */
+	@media (prefers-color-scheme: dark) {
+		html:not([data-theme]), html:not([data-theme]) body { background-color: #0f172a; }
+	}
 	/* Critical header layout — prevents FOUC before component CSS loads */
 	header {
 		position: sticky;
@@ -107,7 +109,7 @@ const imageUrl = typeof image === 'string'
 		height: 4.5rem;
 	}
 	html[data-theme='dark'] header { background: rgba(15, 23, 42, 0.8); }
-	html:not([data-theme='dark']) header { background: rgba(255, 255, 255, 0.85); }
+	html[data-theme='light'] header { background: rgba(255, 255, 255, 0.85); }
 	/* Critical card backgrounds — prevents white flash in dark mode */
 	.project-card, .interactive-card {
 		background: var(--color-bg-offset);
