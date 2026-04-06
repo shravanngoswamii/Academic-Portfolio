@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import bibFileRaw from '../data/publications.bib?raw';
 import { url } from '../utils/paths';
@@ -140,7 +141,7 @@ const formatAuthor = (auth: Author) => {
 					</div>
 				</div>
 				<div class="hero-image">
-					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Nietzsche187a.jpg/500px-Nietzsche187a.jpg" alt="Professor Portrait" />
+					<Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Nietzsche187a.jpg/500px-Nietzsche187a.jpg" width={280} height={280} alt="Professor Portrait" fetchpriority="high" decoding="async" />
 				</div>
 			</section>
 
