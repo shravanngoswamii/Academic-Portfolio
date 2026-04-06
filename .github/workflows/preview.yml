@@ -1,0 +1,91 @@
+name: PR Preview Workflow
+
+on:
+  pull_request:
+    types: [opened, synchronize, closed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build-and-preview:
+    if: github.event.action == 'opened' || github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with Astro
+        env:
+          BASE_PATH: /Academic-Portfolio/pr-previews/${{ github.event.pull_request.number }}
+        run: npm run build
+
+      - name: Process HTML links
+        uses: shravanngoswamii/html-link-action@v1
+        with:
+          site-dir: dist
+          noopener: true
+          noreferrer: true
+          external-target-blank: true
+          strip-tracking-params: true
+          check-links: true
+
+      - name: Add .nojekyll file
+        run: touch ./dist/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: ./dist
+          target-folder: pr-previews/${{ github.event.pull_request.number }}
+          clean: false
+          commit-message: Deploy preview for PR ${{ github.event.pull_request.number }}
+
+      - name: Comment Preview URL
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            <!-- preview-url-comment -->
+            Preview the changes: https://shravanngoswamii.github.io/Academic-Portfolio/pr-previews/${{ github.event.pull_request.number }}
+          comment_tag: preview-url-comment
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  delete-preview-directory:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v6
+        with:
+          ref: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove PR Preview Directory
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          PREVIEW_DIR="pr-previews/${PR_NUMBER}"
+          if [ -d "${PREVIEW_DIR}" ]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git pull origin gh-pages
+            rm -rf "${PREVIEW_DIR}"
+            git add .
+            git diff --staged --quiet || git commit -m "Remove preview for PR #${PR_NUMBER}"
+            git push
+          else
+            echo "Preview directory ${PREVIEW_DIR} not found, skipping."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
