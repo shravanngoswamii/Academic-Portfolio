@@ -20,12 +20,8 @@ const cvHref = CV_URL ? url(CV_URL) : null;
 		</div>
 
         <div class="header-actions">
-            <a href="https://github.com/shravanngoswamii/astro-scholar" target="_blank" rel="noopener noreferrer" class="github-star-link" aria-label="GitHub Repository" title="Star the repo if you like it!">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                <div class="star-count-container">
-                    <span id="github-stars" class="star-count"></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                </div>
+            <a href="https://github.com/shravanngoswamii/astro-scholar" target="_blank" rel="noopener noreferrer" class="github-link" aria-label="GitHub Repository" title="GitHub Repository">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
             </a>
             <button id="search-toggle-desktop" class="search-toggle" aria-label="Search site">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -74,17 +70,6 @@ const cvHref = CV_URL ? url(CV_URL) : null;
             document.dispatchEvent(new CustomEvent('open-search'));
         });
     });
-
-    // Fetch GitHub stars
-    fetch('https://api.github.com/repos/shravanngoswamii/astro-scholar')
-        .then(response => response.json())
-        .then(data => {
-            const starsElement = document.getElementById('github-stars');
-            if (starsElement && data.stargazers_count !== undefined) {
-                starsElement.textContent = data.stargazers_count.toString();
-            }
-        })
-        .catch(error => console.error('Error fetching GitHub stars:', error));
 </script>
 
 <style>
@@ -180,28 +165,22 @@ const cvHref = CV_URL ? url(CV_URL) : null;
         color: var(--color-accent);
     }
 
-    .github-star-link {
+    .github-link {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
-        gap: 0.35rem;
-        padding: 0.4rem 0.75rem;
-        background-color: var(--color-bg-offset);
+        justify-content: center;
         color: var(--color-text-main);
-        border: 1px solid var(--color-border);
-        border-radius: 20px;
-        text-decoration: none;
-        font-size: 0.85rem;
-        font-weight: 500;
-        transition: all 0.2s ease;
+        transition: background-color 0.2s ease;
     }
 
-    .star-count-container {
-        display: flex;
-        align-items: center;
-        gap: 0.15rem;
-    }
-    .github-star-link:hover {
-        background-color: var(--color-border);
+    .github-link:hover {
+        background-color: var(--color-bg-offset);
         color: var(--color-accent);
     }
 
