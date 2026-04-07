@@ -25,7 +25,7 @@ export const SOCIAL_LINKS: ReadonlyArray<{
 }> = [
   {
     label: 'GitHub',
-    href: 'https://github.com/shravanngoswamii',
+    href: 'https://github.com/shravanngoswamii/astro-scholar',
     icon: 'github',
   },
   {

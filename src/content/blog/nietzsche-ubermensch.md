@@ -2,7 +2,6 @@
 title: 'The Übermensch: The Vision of Human Excellence'
 description: 'Exploring the concept of the Übermensch and the possibility of human beings transcending their current limitations.'
 pubDate: 'Mar 10 2024'
-heroImage: '../../assets/blog-placeholder-2.jpg'
 ---
 
 
