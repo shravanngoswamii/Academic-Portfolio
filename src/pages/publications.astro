@@ -5,6 +5,9 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE } from '../consts';
 import AuthorLink from '../components/AuthorLink.astro';
 import bibFileRaw from '../data/publications.bib?raw';
+import { getLangFromUrl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
 
 interface Author {
     first: string;
@@ -71,7 +74,7 @@ const formatAuthor = (auth: Author) => {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<BaseHead title={`Publications | ${SITE_TITLE}`} description="Academic Publications" />
 	</head>

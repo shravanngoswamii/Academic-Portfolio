@@ -8,6 +8,7 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import AuthorLink from '../../components/AuthorLink.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { url } from '../../utils/paths';
+import { getLangFromUrl } from '../../i18n/utils';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -25,10 +26,11 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.params;
 const { posts } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<BaseHead title={`Posts tagged "${tag}" | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
         <style>

@@ -6,12 +6,14 @@ import { SITE_TITLE } from '../consts';
 import AuthorLink from '../components/AuthorLink.astro';
 import projectsData from '../data/projects.json';
 import { url } from '../utils/paths';
+import { getLangFromUrl } from '../i18n/utils';
 
+const lang = getLangFromUrl(Astro.url);
 const projects = projectsData.sort((a, b) => b.year - a.year);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<BaseHead title={`Projects | ${SITE_TITLE}`} description="Research Projects" />
 		<style>

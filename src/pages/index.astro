@@ -7,6 +7,9 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import bibFileRaw from '../data/publications.bib?raw';
 import { url } from '../utils/paths';
+import { getLangFromUrl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -75,7 +78,7 @@ const formatAuthor = (auth: Author) => {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>

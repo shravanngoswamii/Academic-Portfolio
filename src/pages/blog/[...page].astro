@@ -8,6 +8,7 @@ import Header from '../../components/Header.astro';
 import AuthorLink from '../../components/AuthorLink.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import { url } from '../../utils/paths';
+import { getLangFromUrl } from '../../i18n/utils';
 
 export async function getStaticPaths() {
     const posts = (await getCollection('blog')).sort(
@@ -35,10 +36,11 @@ export async function getStaticPaths() {
 }
 
 const { posts, currentPage, totalPages, nextPage, prevPage } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
         <style>
