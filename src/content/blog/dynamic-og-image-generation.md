@@ -1,7 +1,7 @@
 ---
 title: 'Dynamic OG image generation in AstroPaper blog posts'
 description: 'An overview of generating dynamic Open Graph images in Astro.'
-pubDate: 'Apr 10 2026'
+pubDate: '2026-04-02'
 authors:
   - simone-de-beauvoir
 toc: true

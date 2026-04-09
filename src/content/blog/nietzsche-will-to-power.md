@@ -1,7 +1,7 @@
 ---
 title: 'The Will to Power: The Fundamental Driving Force of All Existence'
 description: 'Understanding the will to power as the core principle behind all life, morality, and human achievement.'
-pubDate: 'Feb 01 2024'
+pubDate: '2026-04-08'
 heroImage: '../../assets/blog-placeholder-4.jpg'
 ---
 

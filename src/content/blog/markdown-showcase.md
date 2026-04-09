@@ -1,7 +1,7 @@
 ---
 title: 'Markdown Showcase: Code Blocks, Tables, Lists, and More'
 description: 'A reference post for the Academic Portfolio blog that demonstrates the markdown features supported by this Astro setup.'
-pubDate: 'Apr 07 2026'
+pubDate: '2026-04-05'
 updatedDate: 'Apr 07 2026'
 authors:
   - shravan-goswami

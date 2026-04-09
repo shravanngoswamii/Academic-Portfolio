@@ -1,7 +1,7 @@
 ---
 title: 'Optimizing Astro Builds'
 description: 'Tips and tricks to ensure your Astro site builds quickly and runs blazingly fast.'
-pubDate: 'Apr 11 2026'
+pubDate: '2026-04-09'
 authors:
   - shravan-goswami
 toc: true

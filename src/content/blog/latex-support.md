@@ -1,7 +1,7 @@
 ---
 title: 'LaTeX Math Support in Astro Scholar'
 description: 'Demonstrating the new LaTeX math rendering capabilities using remark-math and rehype-katex.'
-pubDate: 'Oct 24 2023'
+pubDate: '2026-04-04'
 tags: ['LaTeX', 'Math', 'Features']
 ---
 

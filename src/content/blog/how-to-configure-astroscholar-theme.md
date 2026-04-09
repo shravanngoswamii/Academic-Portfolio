@@ -1,7 +1,7 @@
 ---
 title: 'How to configure AstroScholar theme'
 description: 'A comprehensive guide on configuring the AstroScholar theme.'
-pubDate: 'Apr 08 2026'
+pubDate: '2026-04-03'
 authors:
   - shravan-goswami
 toc: true

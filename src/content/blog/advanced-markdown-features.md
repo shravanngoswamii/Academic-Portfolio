@@ -1,7 +1,7 @@
 ---
 title: 'Advanced Markdown Features'
 description: 'Exploring footnotes, tables, callouts, and more.'
-pubDate: 'Apr 12 2026'
+pubDate: '2026-04-01'
 authors:
   - friedrich-nietzsche
 toc: true
