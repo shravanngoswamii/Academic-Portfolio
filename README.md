@@ -100,6 +100,91 @@ public/
 	fonts/           Webfonts and static assets
 ```
 
+## Internationalization (i18n)
+
+The site supports multiple languages out of the box. Currently available: **English** (default), **Hindi**, and **Japanese**. For languages not natively supported, a Google Translate fallback is available.
+
+### How It Works
+
+- **Astro's built-in i18n routing** handles URL prefixes (`/hi/`, `/ja/`) with fallback rewrite to English
+- **UI text** is translated via dictionary keys in `src/i18n/ui.ts`
+- **Blog posts** live in locale subfolders: `src/content/blog/hi/`, `src/content/blog/ja/`
+- **About page** has separate locale files with translated prose: `src/pages/hi/about.astro`
+- **Data-driven pages** (publications, projects, team, tags, archive) use the fallback rewrite and render translated UI text automatically
+
+### Adding a New Language
+
+Example: adding Korean (`ko`).
+
+1. **Add locale to config** (`astro.config.mjs`):
+   ```js
+   i18n: {
+     locales: ["en", "hi", "ja", "ko"],
+     fallback: { hi: "en", ja: "en", ko: "en" },
+   }
+   ```
+
+2. **Add language entry** (`src/i18n/ui.ts`):
+   ```ts
+   export const languages = {
+     en: 'English', hi: 'हिन्दी', ja: '日本語', ko: '한국어',
+   };
+   ```
+
+3. **Add all translation keys** in `ui.ts` under a new `ko: { ... }` block. Copy the English keys and translate each value.
+
+4. **Create translated about page**: `src/pages/ko/about.astro`
+
+5. **Create blog route pages**:
+   - `src/pages/ko/blog/[...page].astro` (copy from `hi/blog/[...page].astro`, change `'hi/'` to `'ko/'`)
+   - `src/pages/ko/blog/[...slug].astro` (copy from `hi/blog/[...slug].astro`, change `'hi/'` to `'ko/'`)
+
+6. **Translate blog posts**: Create `src/content/blog/ko/` with translated `.md` files (same filenames as English)
+
+7. **Build and test**: `npm run build && npm run preview`
+
+### Translating a Blog Post
+
+1. Copy the English post from `src/content/blog/my-post.md`
+2. Place it at `src/content/blog/{locale}/my-post.md` (e.g. `src/content/blog/hi/my-post.md`)
+3. Translate the `title` and `description` in frontmatter
+4. Keep `pubDate`, `authors`, `tags`, `heroImage` the same
+5. Translate the body content
+
+### AI Prompt for Generating Translations
+
+Use this prompt with Claude, ChatGPT, or any AI assistant to generate translations:
+
+```
+I need to translate content for an academic portfolio website (Astro Scholar).
+Target language: [LANGUAGE NAME]
+
+## Task 1: UI Strings
+Translate each value below naturally for an academic website.
+Keep translations concise for navigation labels.
+
+[Paste the English keys from src/i18n/ui.ts]
+
+## Task 2: Blog Post
+Translate this blog post to [LANGUAGE NAME].
+- Translate the title and description in frontmatter
+- Keep pubDate, authors, tags, heroImage unchanged
+- For technical content: translate explanatory text but keep code blocks,
+  LaTeX formulas, and technical terms (HTML, CSS, Astro, etc.) in English
+- For prose content: translate everything naturally
+
+[Paste the blog post content]
+
+## Task 3: About Page
+Translate this biography to [LANGUAGE NAME] for an academic portfolio:
+
+[Paste the about page content]
+```
+
+### Google Translate Fallback
+
+For languages not natively supported, click the globe icon in the header and select "Translate". This loads Google Translate on-demand to translate the page into any language. Native translations (Hindi, Japanese) always take priority for better quality and SEO.
+
 ## Community
 
 - Contributing guide: [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md)
