@@ -4,16 +4,17 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_TITLE } from '../consts';
 import { url } from '../utils/paths';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 ---
 
 <!doctype html>
 <html lang={lang}>
   <head>
-    <BaseHead title={`404 | ${SITE_TITLE}`} description="{t('The page you requested could not be found.')}" />
+    <BaseHead title={`404 | ${SITE_TITLE}`} description={t('404.desc')} />
     <style>
       .not-found-wrap {
         position: relative;
@@ -176,31 +177,30 @@ const t = useTranslations(lang);
     <Header />
     <main>
       <section class="not-found-wrap">
-        <div class="not-found-chip">Page Not Found</div>
+        <div class="not-found-chip">{t('404.chip')}</div>
 
         <div class="not-found-grid">
           <div>
             <p class="code">404</p>
-            <h1 class="title">You have wandered off the syllabus.</h1>
+            <h1 class="title">{t('404.title')}</h1>
             <p class="desc">
-              The page you requested does not exist, may have been moved, or the link is outdated.
-              Use one of the shortcuts below to continue exploring.
+              {t('404.desc')}
             </p>
 
             <div class="actions">
-              <a class="btn" href={url('/')}>Return Home</a>
-              <a class="btn btn-outline" href={url('/blog')}>Read the Blog</a>
+              <a class="btn" href={url(translatePath('/'))}>{t('404.returnHome')}</a>
+              <a class="btn btn-outline" href={url(translatePath('/blog'))}>{t('404.readBlog')}</a>
             </div>
           </div>
 
           <aside class="suggest">
-            <h3>Quick Destinations</h3>
+            <h3>{t('404.quickDestinations')}</h3>
             <ul>
-              <li><a href={url('/publications')}>Publications</a></li>
-              <li><a href={url('/projects')}>Projects</a></li>
-              <li><a href={url('/team')}>Team</a></li>
-              <li><a href={url('/blog')}>News</a></li>
-              <li><a href={url('https://shravangoswami.com/resume.pdf')}>CV</a></li>
+              <li><a href={url(translatePath('/publications'))}>{t('nav.publications')}</a></li>
+              <li><a href={url(translatePath('/projects'))}>{t('nav.projects')}</a></li>
+              <li><a href={url(translatePath('/team'))}>{t('nav.team')}</a></li>
+              <li><a href={url(translatePath('/blog'))}>{t('nav.news')}</a></li>
+              <li><a href={url('https://shravangoswami.com/resume.pdf')}>{t('nav.cv')}</a></li>
             </ul>
           </aside>
         </div>

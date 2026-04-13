@@ -1,8 +1,9 @@
 ---
 
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 
 const today = new Date();
 import {
@@ -27,19 +28,19 @@ const cvHref = CV_URL ? url(CV_URL) : null;
                 {SITE_DESCRIPTION}
             </p>
             <div class="copyright">
-                &copy; {today.getFullYear()} {SITE_TITLE}.<br/>All rights reserved.
+                &copy; {today.getFullYear()} {SITE_TITLE}.<br/>{t('footer.allRightsReserved')}
             </div>
         </div>
 
         <div class="footer-col">
-            <h4>Quick Links</h4>
+            <h4>{t('footer.quickLinks')}</h4>
             <ul>
-                <li><a href={url('/')}>Home</a></li>
-                <li><a href={url('/publications')}>Publications</a></li>
-                <li><a href={url('/projects')}>Projects</a></li>
-                <li><a href={url('/team')}>Team</a></li>
-                <li><a href={url('/blog')}>News</a></li>
-                {cvHref && <li><a href={cvHref} target="_blank">Download CV</a></li>}
+                <li><a href={url(translatePath('/'))}>{t('nav.home')}</a></li>
+                <li><a href={url(translatePath('/publications'))}>{t('nav.publications')}</a></li>
+                <li><a href={url(translatePath('/projects'))}>{t('nav.projects')}</a></li>
+                <li><a href={url(translatePath('/team'))}>{t('nav.team')}</a></li>
+                <li><a href={url(translatePath('/blog'))}>{t('nav.news')}</a></li>
+                {cvHref && <li><a href={cvHref} target="_blank">{t('nav.downloadCV')}</a></li>}
             </ul>
         </div>
 
@@ -96,7 +97,7 @@ const cvHref = CV_URL ? url(CV_URL) : null;
         </div>
     </div>
     <div class="footer-credit">
-        Designed & Created by <a href={FOOTER_CREDIT.designerUrl} target="_blank" rel="noopener noreferrer">{FOOTER_CREDIT.designerName}</a> | <a href={FOOTER_CREDIT.sourceUrl} target="_blank" rel="noopener noreferrer">{FOOTER_CREDIT.sourceLabel}</a>
+        {t('Designed & Created by')} <a href={FOOTER_CREDIT.designerUrl} target="_blank" rel="noopener noreferrer">{FOOTER_CREDIT.designerName}</a> | <a href={FOOTER_CREDIT.sourceUrl} target="_blank" rel="noopener noreferrer">{t('Open Source')}</a>
     </div>
 </footer>
 

@@ -46,7 +46,7 @@ const withFallback = (member: AuthorRecord) => ({
 <!doctype html>
 <html lang={lang}>
 	<head>
-		<BaseHead title={`Team | ${SITE_TITLE}`} description="Research Team & Collaborators" />
+		<BaseHead title={`${t('nav.team')} | ${SITE_TITLE}`} description={t('Research Team & Collaborators')} />
 		<style>
 			.team-hero {
 				text-align: center;
@@ -164,8 +164,8 @@ const withFallback = (member: AuthorRecord) => ({
 		<Header />
 		<main>
 			<div class="team-hero">
-				<h1>Research Team</h1>
-				<p>Meet the scholars, students, and collaborators shaping the ideas behind this portfolio.</p>
+				<h1>{t('team.title')}</h1>
+				<p>{t('team.subtitle')}</p>
 			</div>
 
 			{piMembers.map((member) => {
@@ -201,7 +201,7 @@ const withFallback = (member: AuthorRecord) => ({
 							<span style="font-size: 0.85rem; color: var(--color-text-muted); display: block; margin-top: 4px;">{profile.role}</span>
 						</div>
 					);
-				}) : <p>No current members found.</p>}
+				}) : <p>{t('team.noCurrentMembers')}</p>}
 			</div>
 
 			{dissertationStudents.length > 0 && (
@@ -258,7 +258,7 @@ const withFallback = (member: AuthorRecord) => ({
 
 			{collaborators.length > 0 && (
 				<>
-					<h2>Collaborators</h2>
+					<h2>{t('team.collaborators')}</h2>
 					<div class="collab-grid">
 						{collaborators.map((member) => {
 							const profile = withFallback(member);

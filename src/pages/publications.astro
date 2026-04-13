@@ -82,8 +82,8 @@ const formatAuthor = (auth: Author) => {
 	<body>
 		<Header />
 		<main>
-			<h1>Publications</h1>
-			<p>Selected peer-reviewed publications.</p>
+			<h1>{t('publications.title')}</h1>
+			<p>{t('publications.subtitle')}</p>
 			
 			<div class="publication-list">
 				{publications.map((entry) => (

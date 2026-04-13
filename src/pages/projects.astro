@@ -169,7 +169,7 @@ const projects = projectsData.sort((a, b) => b.year - a.year);
 		<main class="projects-section">
 			<div class="projects-hero">
 				<h1>{t('Research Projects')}</h1>
-				<p>Landmark philosophical investigations that have fundamentally shaped the course of Western intellectual history.</p>
+				<p>{t('projects.subtitle')}</p>
 			</div>
 			
 			<div class="projects-grid">
@@ -185,7 +185,7 @@ const projects = projectsData.sort((a, b) => b.year - a.year);
 
 						<div class="project-content-wrapper">
 							<div class="project-header">
-								<span class="project-year">{project.year > 0 ? project.year : 'Classical'}</span>
+								<span class="project-year">{project.year > 0 ? project.year : t('projects.classical')}</span>
 								<h3>
 									{project.link ? (
 										<a href={project.link} target="_blank">{project.title}</a>
@@ -199,7 +199,7 @@ const projects = projectsData.sort((a, b) => b.year - a.year);
 							
 							{project.authors && project.authors.length > 0 && (
 								<div class="project-meta">
-									<span class="meta-label">By:</span>
+									<span class="meta-label">{t('projects.by')}</span>
 									<span class="author-names">
 										{project.authors.map((authorId, i) => (
 											<span>
@@ -213,13 +213,13 @@ const projects = projectsData.sort((a, b) => b.year - a.year);
 
 							{project.link && (
 								<a href={project.link} target="_blank" class="read-more">
-									Read More &rarr;
+									<span set:html={t('projects.readMore') + ' &rarr;'} />
 								</a>
 							)}
 						</div>
 					</article>
 				)) : (
-                    <p>No projects found in <code>src/data/projects.json</code>.</p>
+                    <p>{t('projects.noProjects')}</p>
                 )}
 			</div>
 		</main>

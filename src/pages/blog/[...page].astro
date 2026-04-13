@@ -11,9 +11,11 @@ import { url } from '../../utils/paths';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 export async function getStaticPaths() {
-    const posts = (await getCollection('blog')).sort(
+    const allPosts = (await getCollection('blog')).sort(
         (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
     );
+    // English blog listing: only posts without locale prefix
+    const posts = allPosts.filter(post => !post.id.includes('/'));
 
     const pageSize = 4;
     const totalPages = Math.ceil(posts.length / pageSize);
