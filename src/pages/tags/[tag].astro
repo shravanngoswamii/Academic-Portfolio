@@ -8,15 +8,16 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import AuthorLink from '../../components/AuthorLink.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { url } from '../../utils/paths';
+import { getLangFromUrl, useTranslations, getPostsForLang, stripLangPrefix, useTranslatedPath } from '../../i18n/utils';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
+	const allPosts = await getCollection('blog');
+	const tags = [...new Set(allPosts.flatMap((post) => post.data.tags || []))];
 
 	return tags.map((tag) => ({
 		params: { tag },
 		props: {
-			posts: posts
+			allPosts: allPosts
 				.filter((post) => post.data.tags?.includes(tag))
 				.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
 		},
@@ -24,11 +25,15 @@ export async function getStaticPaths() {
 }
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { allPosts } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+const posts = getPostsForLang(allPosts, lang);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<BaseHead title={`Posts tagged "${tag}" | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
         <style>
@@ -150,18 +155,20 @@ const { posts } = Astro.props;
 	<body>
 		<Header />
 		<main>
-			<h1>Posts tagged "{tag}"</h1>
+			<h1>{t('Posts tagged')} "{tag}"</h1>
             <p style="margin-bottom: 2rem; max-width: 700px; color: var(--color-text-muted);">
-                <a href={url('/tags')} style="color: var(--color-accent); text-decoration: none;">&larr; Back to all tags</a>
+                <a href={url(translatePath('/tags'))} style="color: var(--color-accent); text-decoration: none;">&larr; {t('Tags')}</a>
             </p>
 
             <div class="blog-list">
                 {
-                    posts.map((post) => (
+                    posts.map((post) => {
+                        const postSlug = stripLangPrefix(post.id, lang);
+                        return (
                         <article class="blog-post-card">
                             <div class="blog-content">
                                 <h2 class="blog-title">
-                                    <a href={url(`/blog/${post.id}/`)}>{post.data.title}</a>
+                                    <a href={url(translatePath(`/blog/${postSlug}/`))}>{post.data.title}</a>
                                 </h2>
                                 
                                 <div class="blog-meta">
@@ -182,8 +189,8 @@ const { posts } = Astro.props;
                                         <>
                                             <span class="meta-divider">&bull;</span>
                                             <span class="blog-tags" style="display: inline-flex; gap: 0.25rem;">
-                                                {post.data.tags.map((t) => (
-                                                    <a href={url(`/tags/${t}`)} style="text-decoration: none; color: var(--color-accent); font-weight: 600;">#{t}</a>
+                                                {post.data.tags.map((tagName) => (
+                                                    <a href={url(translatePath(`/tags/${tagName}`))} style="text-decoration: none; color: var(--color-accent); font-weight: 600;">#{tagName}</a>
                                                 ))}
                                             </span>
                                         </>
@@ -194,18 +201,18 @@ const { posts } = Astro.props;
                                     {post.data.description}
                                 </p>
                                 
-                                <a href={url(`/blog/${post.id}/`)} class="read-more">Read Article &rarr;</a>
+                                <a href={url(translatePath(`/blog/${postSlug}/`))} class="read-more"><span set:html={t('Read Article') + ' &rarr;'} /></a>
                             </div>
 
-                            <a href={url(`/blog/${post.id}/`)} class="blog-thumb">
+                            <a href={url(translatePath(`/blog/${postSlug}/`))} class="blog-thumb">
                                 {post.data.heroImage ? (
                                     <Image width={560} height={315} src={post.data.heroImage} alt={post.data.title} />
                                 ) : (
-                                    <img src={url(`/blog/${post.id}.png`)} alt={post.data.title} />
+                                    <img src={url(`/blog/${postSlug}.png`)} alt={post.data.title} />
                                 )}
                             </a>
                         </article>
-                    ))
+                    )})
                 }
             </div>
 		</main>

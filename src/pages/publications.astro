@@ -5,6 +5,10 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE } from '../consts';
 import AuthorLink from '../components/AuthorLink.astro';
 import bibFileRaw from '../data/publications.bib?raw';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 interface Author {
     first: string;
@@ -71,15 +75,15 @@ const formatAuthor = (auth: Author) => {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<BaseHead title={`Publications | ${SITE_TITLE}`} description="Academic Publications" />
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>Publications</h1>
-			<p>Selected peer-reviewed publications.</p>
+			<h1>{t('publications.title')}</h1>
+			<p>{t('publications.subtitle')}</p>
 			
 			<div class="publication-list">
 				{publications.map((entry) => (
@@ -138,7 +142,7 @@ const formatAuthor = (auth: Author) => {
 				))}
 
                 {publications.length === 0 && (
-                    <p>No publications found.</p>
+                    <p>{t('No publications found.')}</p>
                 )}
 			</div>
 		</main>
