@@ -189,8 +189,8 @@ const posts = getPostsForLang(allPosts, lang);
                                         <>
                                             <span class="meta-divider">&bull;</span>
                                             <span class="blog-tags" style="display: inline-flex; gap: 0.25rem;">
-                                                {post.data.tags.map((t) => (
-                                                    <a href={url(`/tags/${t}`)} style="text-decoration: none; color: var(--color-accent); font-weight: 600;">#{t}</a>
+                                                {post.data.tags.map((tagName) => (
+                                                    <a href={url(translatePath(`/tags/${tagName}`))} style="text-decoration: none; color: var(--color-accent); font-weight: 600;">#{tagName}</a>
                                                 ))}
                                             </span>
                                         </>

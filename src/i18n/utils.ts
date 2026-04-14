@@ -44,7 +44,7 @@ export function getLocaleForDate(lang: string): string {
   return localeMap[lang] || 'en-US';
 }
 
-export function getPostsForLang(posts: { id: string }[], lang: string) {
+export function getPostsForLang<T extends { id: string }>(posts: T[], lang: string): T[] {
   if (lang === defaultLang) {
     return posts.filter(post => !post.id.includes('/'));
   }

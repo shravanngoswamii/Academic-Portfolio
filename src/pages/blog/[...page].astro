@@ -8,7 +8,7 @@ import Header from '../../components/Header.astro';
 import AuthorLink from '../../components/AuthorLink.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import { url } from '../../utils/paths';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
 
 export async function getStaticPaths() {
     const allPosts = (await getCollection('blog')).sort(
@@ -40,6 +40,7 @@ export async function getStaticPaths() {
 const { posts, currentPage, totalPages, nextPage, prevPage } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 ---
 
 <!doctype html>
@@ -198,7 +199,7 @@ const t = useTranslations(lang);
                                             <span class="meta-divider">&bull;</span>
                                             <span class="blog-tags" style="display: inline-flex; gap: 0.25rem;">
                                                 {post.data.tags.map((tag) => (
-                                                    <a href={url(`/tags/${tag}`)} style="text-decoration: none; color: var(--color-accent); font-weight: 600;">#{tag}</a>
+                                                    <a href={url(translatePath(`/tags/${tag}`))} style="text-decoration: none; color: var(--color-accent); font-weight: 600;">#{tag}</a>
                                                 ))}
                                             </span>
                                         </>

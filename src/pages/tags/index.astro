@@ -5,10 +5,11 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { url } from '../../utils/paths';
-import { getLangFromUrl, useTranslations, getPostsForLang } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations, useTranslatedPath, getPostsForLang } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 const allPosts = await getCollection('blog');
 const posts = getPostsForLang(allPosts, lang);
 const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))].sort();
@@ -53,7 +54,7 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))].sort();
             </p>
             <div class="tags-container">
                 {tags.map((tag) => (
-                    <a href={url(`/tags/${tag}`)} class="tag-card">
+                    <a href={url(translatePath(`/tags/${tag}`))} class="tag-card">
                         #{tag}
                     </a>
                 ))}

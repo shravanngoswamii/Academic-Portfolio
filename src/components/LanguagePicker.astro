@@ -6,6 +6,7 @@ import { url } from '../utils/paths';
 const lang = getLangFromUrl(Astro.url);
 const translatePath = useTranslatedPath(lang);
 const t = useTranslations(lang);
+const i18nEnabled = Object.keys(languages).length > 1;
 
 // Get current path relative to base and language
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -19,7 +20,7 @@ if (currentPath.startsWith(`/${lang}/`)) {
     currentPath = '/';
 }
 ---
-<div class="language-picker dropdown">
+{i18nEnabled && <div class="language-picker dropdown">
     <button class="dropbtn" aria-label="Select Language">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe">
             <circle cx="12" cy="12" r="10"></circle>
@@ -37,7 +38,7 @@ if (currentPath.startsWith(`/${lang}/`)) {
             {t('languagePicker.translate')}
         </button>
     </div>
-</div>
+</div>}
 
 <div id="google_translate_element" style="display:none;"></div>
 

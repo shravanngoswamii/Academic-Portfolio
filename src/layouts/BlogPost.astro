@@ -8,7 +8,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import { url } from '../utils/paths';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 
 type Props = CollectionEntry<'blog'>['data'] & { id?: string, headings?: { depth: number; slug: string; text: string }[], toc?: boolean };
 
@@ -16,6 +16,7 @@ const { title, description, pubDate, updatedDate, heroImage, authors, tags, id, 
 const fallbackHero = id ? url(`/blog/${id}.png`) : url('/og.png');
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 ---
 
 <html lang={lang}>
@@ -523,7 +524,7 @@ const t = useTranslations(lang);
 								{tags && tags.length > 0 && (
 									<div class="blog-tags" style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 0.75rem;">
 										{tags.map((tag) => (
-											<a href={url(`/tags/${tag}`)} style="text-decoration: none; font-size: 0.85rem; font-weight: 600; color: var(--color-accent); background: var(--color-bg-offset); padding: 0.2rem 0.6rem; border-radius: 999px; border: 1px solid var(--color-border);">
+											<a href={url(translatePath(`/tags/${tag}`))} style="text-decoration: none; font-size: 0.85rem; font-weight: 600; color: var(--color-accent); background: var(--color-bg-offset); padding: 0.2rem 0.6rem; border-radius: 999px; border: 1px solid var(--color-border);">
 												#{tag}
 											</a>
 										))}

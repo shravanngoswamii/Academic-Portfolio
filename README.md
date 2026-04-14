@@ -104,6 +104,28 @@ public/
 
 The site supports multiple languages out of the box. Currently available: **English** (default), **Hindi**, **Japanese**, **Korean**, **Simplified Chinese**, **Traditional Chinese**, **Russian**, and **Greek**. For languages not natively supported, a Google Translate fallback is available.
 
+### Enabling / Disabling i18n
+
+i18n is controlled entirely by `src/i18n/ui.ts`. To disable it, keep only the default language:
+
+```ts
+export const languages = {
+  en: 'English',
+};
+```
+
+The language picker will auto-hide, and the Astro i18n config is skipped automatically. To re-enable, add languages back to the `languages` object.
+
+### Changing the Default Language
+
+Edit `src/i18n/ui.ts`:
+
+```ts
+export const defaultLang = 'hi'; // or 'ja', 'ko', etc.
+```
+
+The default language's pages live at the root URL (no prefix). All other languages get a `/{locale}/` prefix.
+
 ### How It Works
 
 - **Astro's built-in i18n routing** handles URL prefixes (`/hi/`, `/ja/`) with fallback rewrite to English

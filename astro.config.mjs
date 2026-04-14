@@ -5,6 +5,15 @@ import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import { languages, defaultLang } from './src/i18n/ui.ts';
+
+// Build i18n config automatically from src/i18n/ui.ts
+// To disable i18n: remove all languages except the default from ui.ts
+const locales = Object.keys(languages);
+const i18nEnabled = locales.length > 1;
+const fallback = Object.fromEntries(
+	locales.filter(l => l !== defaultLang).map(l => [l, defaultLang])
+);
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,21 +36,15 @@ export default defineConfig({
 	build: {
 		inlineStylesheets: 'always',
 	},
-	i18n: {
-		locales: ["en", "hi", "ja", "ko", "zh-cn", "zh-tw", "ru", "el"],
-		defaultLocale: "en",
-		fallback: {
-			hi: "en",
-			ja: "en",
-			ko: "en",
-			"zh-cn": "en",
-			"zh-tw": "en",
-			ru: "en",
-			el: "en",
-		},
-		routing: {
-			prefixDefaultLocale: false,
-			fallbackType: "rewrite"
+	...(i18nEnabled && {
+		i18n: {
+			locales,
+			defaultLocale: defaultLang,
+			fallback,
+			routing: {
+				prefixDefaultLocale: false,
+				fallbackType: "rewrite"
+			}
 		}
-	}
+	})
 });

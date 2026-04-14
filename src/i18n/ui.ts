@@ -1,4 +1,10 @@
-export const languages = {
+// ─── i18n Configuration ─────────────────────────────────────────
+// To change default language: set `defaultLang` below
+// To disable i18n entirely: remove all languages except the default
+// To add a language: add it here and create locale pages (see README)
+// ────────────────────────────────────────────────────────────────
+
+export const languages: Record<string, string> = {
   en: 'English',
   hi: 'हिन्दी',
   ja: '日本語',
