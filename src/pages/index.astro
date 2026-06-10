@@ -7,10 +7,17 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import bibFileRaw from '../data/publications.bib?raw';
 import { url } from '../utils/paths';
+import { getLangFromUrl, useTranslations, useTranslatedPath, getLocaleForDate, getPostsForLang } from '../i18n/utils';
 
-const posts = (await getCollection('blog')).sort(
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+const dateLocale = getLocaleForDate(lang);
+
+const allPosts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-).slice(0, 3);
+);
+const posts = getPostsForLang(allPosts, lang).slice(0, 3);
 
 interface Author {
 	first: string;
@@ -75,7 +82,7 @@ const formatAuthor = (auth: Author) => {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
@@ -129,15 +136,15 @@ const formatAuthor = (auth: Author) => {
 				<div class="hero-content">
 					<h1 style="margin-bottom: 0.5rem; font-size: 3rem;">Friedrich Nietzsche</h1>
 					<h2 style="font-weight: 400; color: var(--color-text-muted); margin-bottom: 1.5rem; font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.05em; font-size: 1rem; border-bottom: none; padding-bottom: 0; display: block; margin-top: 0;">
-						Professor of Philosophy<br/>
-						Institute for Advanced Study
+						{t('Professor of Philosophy')}<br/>
+						{t('Institute for Advanced Study')}
 					</h2>
 					<p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 2rem;">
-						Welcome to my academic portfolio. My research focuses on <strong>Philosophy of Culture, Morality, and the Will to Power</strong>. I lead the Philosophy Group where we challenge conventional thinking and explore the transformation of human values and civilization.
+						{t('hero.welcome')} <strong>{t('hero.focus')}</strong>. {t('hero.desc')}
 					</p>
 					<div class="hero-buttons">
-						<a href={url('/publications')} class="btn">View Publications</a>
-						<a href={url('/projects')} class="btn btn-outline">Current Projects</a>
+						<a href={url(translatePath('/publications'))} class="btn">{t('View Publications')}</a>
+						<a href={url(translatePath('/projects'))} class="btn btn-outline">{t('Current Projects')}</a>
 					</div>
 				</div>
 				<div class="hero-image">
@@ -149,7 +156,7 @@ const formatAuthor = (auth: Author) => {
 
 			<div class="grid-2" style="gap: 4rem; margin-top: 0;">
                 <section>
-                    <h2 style="margin-top: 0;">Selected Publications</h2>
+                    <h2 style="margin-top: 0;">{t('Selected Publications')}</h2>
                     <div class="publication-list">
                         {publications.length > 0 ? publications.map((pub) => (
                             <div class="pub-mini-item">
@@ -158,37 +165,39 @@ const formatAuthor = (auth: Author) => {
                                     {pub.authors.map(a => formatAuthor(a)).join(', ')}
                                     <br/>
                                     <span style="font-style: italic; color: var(--color-accent);">
-                                        {(pub.fields.journal || pub.fields.booktitle || pub.fields.publisher || "Preprint").replace(/[{}]/g, '')}
+                                        {(pub.fields.journal || pub.fields.booktitle || pub.fields.publisher || t('Preprint')).replace(/[{}]/g, '')}
                                     </span>
                                     {pub.fields.year && <span>, {pub.fields.year}</span>}
                                 </div>
                             </div>
-                        )) : <p>No publications found.</p>}
+                        )) : <p>{t('No publications found.')}</p>}
                     </div>
                     <div style="margin-top: 1.5rem;">
-                        <a href={url('/publications')} style="font-weight: 600;">View Full List &rarr;</a>
+                        <a href={url(translatePath('/publications'))} style="font-weight: 600;"><span set:html={t('View Publications') + ' &rarr;'} /></a>
                     </div>
                 </section>
 
                 <section>
-                    <h2 style="margin-top: 0;">Lab News</h2>
+                    <h2 style="margin-top: 0;">{t('Lab News')}</h2>
                     <ul style="list-style: none; padding: 0;">
-                        {posts.map((post) => (
+                        {posts.map((post) => {
+                            const postSlug = lang === 'en' ? post.id : post.id.replace(`${lang}/`, '');
+                            return (
                             <li style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px dashed var(--color-border);">
-                                <a href={url(`/blog/${post.id}/`)} style="display: block; font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; color: var(--color-text-main); margin-bottom: 0.25rem;">
+                                <a href={url(translatePath(`/blog/${postSlug}/`))} style="display: block; font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; color: var(--color-text-main); margin-bottom: 0.25rem;">
                                     {post.data.title}
                                 </a>
                                 <small style="color: var(--color-text-muted); text-transform: uppercase; font-size: 0.8rem;">
-                                    {post.data.pubDate.toLocaleDateString('en-us', {
+                                    {post.data.pubDate.toLocaleDateString(dateLocale, {
                                         year: 'numeric',
                                         month: 'short',
                                         day: 'numeric',
                                     })}
                                 </small>
                             </li>
-                        ))}
+                        )})}
                     </ul>
-                    <a href={url('/blog')} style="font-weight: 600;">View Blog &rarr;</a>
+                    <a href={url(translatePath('/blog'))} style="font-weight: 600;"><span set:html={t('nav.blog') + ' &rarr;'} /></a>
                 </section>
             </div>
 		</main>

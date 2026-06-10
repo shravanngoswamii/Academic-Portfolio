@@ -3,24 +3,62 @@ import { html } from 'satori-html';
 import { Resvg } from '@resvg/resvg-js';
 
 async function loadGoogleFont(font: string, text: string) {
-    const API = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(text)}`;
-    const css = await (await fetch(API, {
-        headers: { "User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; de-at) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1" }
-    })).text();
-    const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/);
-    if (!resource) throw new Error("Failed to download dynamic font");
-    const res = await fetch(resource[1]);
-    return res.arrayBuffer();
+    try {
+        // Deduplicate characters and limit text length for URL safety
+        const uniqueChars = [...new Set(text)].join('').slice(0, 200);
+        const API = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(uniqueChars)}`;
+        const css = await (await fetch(API, {
+            headers: { "User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; de-at) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1" }
+        })).text();
+        const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/);
+        if (!resource) return null;
+        const res = await fetch(resource[1]);
+        return res.arrayBuffer();
+    } catch {
+        return null;
+    }
+}
+
+function detectNotoFonts(text: string): string[] {
+    const fonts: string[] = [];
+    if (/[\u0900-\u097F]/.test(text)) fonts.push('Noto+Sans+Devanagari');
+    if (/[\uAC00-\uD7AF\u1100-\u11FF]/.test(text)) fonts.push('Noto+Sans+KR');
+    if (/[\u3040-\u309F\u30A0-\u30FF\u31F0-\u31FF]/.test(text)) fonts.push('Noto+Sans+JP');
+    if (/[\u4E00-\u9FFF\u3400-\u4DBF]/.test(text)) fonts.push('Noto+Sans+SC');
+    if (/[\u0400-\u04FF\u0370-\u03FF]/.test(text)) fonts.push('Noto+Sans');
+    return fonts;
 }
 
 export async function generateOgImage(title: string, subtitle: string) {
-    const textToLoad = title + subtitle + "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const fontDataRegular = await loadGoogleFont("Inter", textToLoad);
-    const fontDataBold = await loadGoogleFont("Inter:wght@700", textToLoad);
+    const allText = title + subtitle + "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    const fontDataRegular = await loadGoogleFont("Inter", allText);
+    const fontDataBold = await loadGoogleFont("Inter:wght@700", allText);
+
+    const fonts: { name: string; data: ArrayBuffer; weight: number; style: string }[] = [];
+
+    if (fontDataRegular) fonts.push({ name: "Inter", data: fontDataRegular, weight: 400, style: "normal" });
+    if (fontDataBold) fonts.push({ name: "Inter", data: fontDataBold, weight: 700, style: "normal" });
+
+    // Load fallback fonts for non-Latin scripts
+    const notoFamilies = detectNotoFonts(allText);
+    const notoNames: string[] = [];
+    for (const notoFamily of notoFamilies) {
+        const notoRegular = await loadGoogleFont(notoFamily, allText);
+        const notoBold = await loadGoogleFont(`${notoFamily}:wght@700`, allText);
+        const name = notoFamily.replace(/\+/g, ' ');
+        if (notoRegular) fonts.push({ name, data: notoRegular, weight: 400, style: "normal" });
+        if (notoBold) fonts.push({ name, data: notoBold, weight: 700, style: "normal" });
+        if (notoRegular || notoBold) notoNames.push(`'${name}'`);
+    }
+
+    const fontFamily = notoNames.length > 0
+        ? `'Inter', ${notoNames.join(', ')}`
+        : "'Inter'";
 
     const markup = html`
-        <div style="background-color: #0f172a; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; font-family: 'Inter';">
-            
+        <div style="background-color: #0f172a; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; font-family: ${fontFamily};">
+
             <div style="display: flex; position: absolute; top: -150px; right: -50px; width: 600px; height: 600px; background-image: linear-gradient(135deg, rgba(56, 189, 248, 0.4), rgba(49, 46, 129, 0)); border-radius: 50%;"></div>
             <div style="display: flex; position: absolute; bottom: -150px; left: -50px; width: 600px; height: 600px; background-image: linear-gradient(45deg, rgba(167, 139, 250, 0.4), rgba(88, 28, 135, 0)); border-radius: 50%;"></div>
 
@@ -58,10 +96,7 @@ export async function generateOgImage(title: string, subtitle: string) {
     const svg = await satori(markup, {
         width: 1200,
         height: 630,
-        fonts: [
-            { name: "Inter", data: fontDataRegular, weight: 400, style: "normal" },
-            { name: "Inter", data: fontDataBold, weight: 700, style: "normal" }
-        ],
+        fonts,
     });
 
     const resvg = new Resvg(svg);
